@@ -1,0 +1,38 @@
+[
+    {
+        "id": 1,
+        "name": "some name",
+        "address": {
+            "country": "RU",
+            "city": "Moscow"
+        },
+        "telephones": [
+            {
+                "mobile": "+123432423"
+            },
+            {
+                "mobile": "+923949234"
+            },
+            {
+                "home": "08928488"
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "name": "another name",
+        "address": {
+            "country": "DE",
+            "city": "Munich"
+        },
+        "documents": [
+            {
+                "passport": {
+                    "id": "124455435",
+                    "validFrom": "2024-01-12",
+                    "validTo": "2034-01-12"
+                }
+            }
+        ]
+    }
+]

@@ -1,12 +1,13 @@
-function importJsonFile(data: string, fileType: string, fileName: string) {
-    // Access the data as base64 encoded
-    console.log(data);
-    const fileData = data;
-    const contentType = fileType; 
+function startImportFile() {
+
+}
+
+async function importJsonFile(data: string, fileType: string, fileName: string) {
+    // Access the data as base64 encoded 
 
     const blob: GoogleAppsScript.Base.Blob = Utilities.newBlob(
-        Utilities.base64Decode(fileData),
-        contentType,
+        Utilities.base64Decode(data),
+        fileType,
         fileName
     );
 
@@ -16,18 +17,16 @@ function importJsonFile(data: string, fileType: string, fileName: string) {
     // Create a JSON object depending on the file type
     let jsonObject: object | null = null;
 
-    if (contentType === "application/json") {
+    if (fileType === "application/json") {
         // Parse JSON content
         jsonObject = JSON.parse(fileContent);
         processJsonObject(jsonObject);
-    } else if (contentType === "text/csv") {
+    } else if (fileType === "text/csv") {
         // Parse CSV content
         //jsonObject = parseCsvToJson(fileContent);
     } else {
         throw new Error("Unsupported file type. Please upload a JSON or CSV file.");
     }
-
-
 }
 
 function processJsonObject(jsonObject: any) {
@@ -39,21 +38,42 @@ function processJsonObject(jsonObject: any) {
     if (!Array.isArray(jsonObject)) {
         return "Only arrays are supported";
     }
-    const data: any[][] = [];
+    const result: any[][] = [];
+    const rows: any[] = [];
+    const keys: Set<string> = new Set();
 
-    const keys = Object.keys(jsonObject[0]);
-    data.push(keys);
+    const flattenObject = (obj: any, parentKey: string = ''): any => {
+        const flatObj: any = {};
+        for (const key in obj) {
+            if (obj.hasOwnProperty(key)) {
+                const newKey = parentKey ? `${parentKey}.${key}` : key;
+                if (typeof obj[key] === 'object' && obj[key] !== null) {
+                    Object.assign(flatObj, flattenObject(obj[key], newKey));
+                } else {
+                    flatObj[newKey] = obj[key];
+                    keys.add(newKey);
+                }
+            }
+        }
+        return flatObj;
+    };
 
     for (const item of jsonObject) {
-        const values = keys.map((key) => item[key]);
-        data.push(values);
+        rows.push(flattenObject(item));
+    }
+
+    const keysArray = Array.from(keys);
+    result.push(keysArray);
+    for (const row of rows) {
+        const values = keysArray.map((key) => row[key] !== undefined ? row[key] : undefined);
+        result.push(values);
     }
 
     // Determine where to start inserting the data.
     const startRow = sheet.getLastRow() + 1;
 
     // Set the range for the rows to be added.
-    const range = sheet.getRange(startRow, 1, data.length, data[0].length);
+    const range = sheet.getRange(startRow, 1, result.length, result[0].length);
     // Insert all rows at once.
-    range.setValues(data);
+    range.setValues(result);
 }
