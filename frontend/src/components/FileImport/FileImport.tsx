@@ -32,7 +32,16 @@ export const FileImport: FC<FileImportProps> = ({ file, onRemove }) => {
 
                 google.script.run.withSuccessHandler(x => {
                     alert(`File ${x} uploaded successfully!`);
-                }).importJsonFile(base64String, fileType, fileName);
+                }).importJsonFile({
+                    data: base64String,
+                    fileName: fileName,
+                    fileType: fileType,
+                    options: {
+                        sheet: "active",
+                        sheetName: null,
+                        startAt: "lastRow"
+                    }
+                });
             };
             reader.readAsDataURL(file);
         } catch (error) {

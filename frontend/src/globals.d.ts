@@ -3,11 +3,24 @@
 /* eslint-disable no-var */
 // frontend/src/globals.d.ts
 
+type UploadOptions = {
+    sheet: "active" | "name"
+    sheetName: string | null
+    startAt: "selection" | "lastRow"
+}
+
+type UploadData = {
+    data: string, 
+    fileType: string, 
+    fileName: string,
+    options: UploadOptions
+}
+
 interface GoogleScriptRun {
     withSuccessHandler: <T>(callback: (result: T) => void) => GoogleScriptRun;
     withFailureHandler: <T>(callback: (error: any) => void) => GoogleScriptRun;
     getGreeting: (name: string) => void; // Example backend function
-    importJsonFile: (data: string, fileType: string, fileName: string) => void;
+    importJsonFile: (uploadData: UploadData) => void;
     // Add more backend functions as needed
 }
 
