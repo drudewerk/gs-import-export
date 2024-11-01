@@ -13,21 +13,6 @@ const App: React.FC = () => {
     setFile(event.target.files[0]);
   };
 
-  // const handleGreet = () => {
-  //   if (google && google.script && google.script.run) {
-  //     google.script.run
-  //       .withSuccessHandler((msg: string) => {
-  //         setGreeting(msg);
-  //       })
-  //       .withFailureHandler((error) => {
-  //         console.error("Error:", error);
-  //       })
-  //       .getGreeting(name);
-  //   } else {
-  //     console.error("google.script.run is not available.");
-  //   }
-  // };
-
   const uploadFile =() => {
     if (!file) {
       alert('Please select a file to upload.');
