@@ -68,6 +68,7 @@ export const Upload: React.FC = () => {
         <GreetButton
             type={ButtonType.primary}
             onClick={uploadFile}
+            disabled={file === null}
         >
             Import
         </GreetButton>
