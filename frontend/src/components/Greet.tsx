@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { Button } from "../framework/Button/Button";
+import { ButtonType } from "../framework/Button/types";
+import styled from "styled-components";
 
 export const Greet: React.FC = () => {
     const [name, setName] = useState("");
@@ -20,22 +23,26 @@ export const Greet: React.FC = () => {
     };
 
     return (
-        <div style={{ padding: "20px", fontFamily: "Arial, sans-serif" }}>
+        <div style={{ padding: "20px" }}>
             <h1>Google Sheets Add-on</h1>
             <input
                 type="text"
                 placeholder="Enter your name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                style={{ padding: "8px", fontSize: "16px", width: "200px" }}
+                style={{ padding: "8px", width: "200px" }}
             />
-            <button
+            <GreetButton
+                type={ButtonType.primary}
                 onClick={handleGreet}
-                style={{ padding: "8px 16px", marginLeft: "10px", fontSize: "16px" }}
             >
                 Greet
-            </button>
+            </GreetButton>
             {greeting && <p style={{ marginTop: "20px" }}>{greeting}</p>}
         </div>
     );
 };
+
+const GreetButton = styled(Button)`
+    margin-left: 10px;
+`;

@@ -1,17 +1,13 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { Greet } from "./components/Greet";
-import { ThemeProvider } from "styled-components";
-import { lightTheme } from "./framework/theme/lightTheme";
 import { GlobalStyles } from "./components/styles/GlobalStyles";
 
 
-
-
 const App: React.FC = () => {
-    return <ThemeProvider theme={lightTheme}>
+    return <Fragment>
         <GlobalStyles />
         <Greet />
-    </ThemeProvider>;
+    </Fragment>;
 };
 
 export default App;
