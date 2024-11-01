@@ -38,7 +38,7 @@ export const FileUpload: FC<FileUploadProps> = ({ onUploaded }) => {
 
 const Container = styled.div<{ $dragActive: boolean; }>`
     width: 100%;
-    height: 100%;
+    height: 205px;
     display: flex;
     flex-flow: column nowrap;
     justify-content: flex-start;
@@ -47,13 +47,14 @@ const Container = styled.div<{ $dragActive: boolean; }>`
     border-width: 5px;
     border-style: dashed;
     border-color: transparent;
-
+    flex-shrink: 0;
     ${p => p.$dragActive && css`border-color: #dadce0;`}
+    padding: 0 16px;
 `;
 
 const UploadBackgroundImg = styled.img`
-    width: 300px;
-    height: 180px;
+    width: 165px;
+    height: 100px;
 `;
 
 const DragText = styled.span`

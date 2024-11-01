@@ -1,37 +1,33 @@
-import { FC, useMemo, useState } from "react";
+import { FC, useState } from "react";
 import { FileUpload } from "./FileUpload/FileUpload";
 import { FileImport } from "./FileImport/FileImport";
 import styled from "styled-components";
 
-type AppState = "upload" | "import";
 
 export const Controller: FC = () => {
     const [file, setFile] = useState<File>();
-    const [appState, setAppState] = useState<AppState>("upload");
 
     const onFileUploaded = (file: File) => {
         setFile(file);
-        setAppState("import");
     };
 
-    const render = useMemo(() => {
-        switch (appState) {
-            case "upload":
-                return <FileUpload onUploaded={onFileUploaded} />;
-            case "import":
-                return <FileImport file={file} />;
-            default:
-                return <div>Bad luck!</div>;
-        }
-    }, [appState, file]);
+    const onFileRemove = () => {
+        setFile(undefined);
+    };
 
     return <Container>
-        {render}
+        <FileUpload onUploaded={onFileUploaded} />
+        <FileImport file={file} onRemove={onFileRemove} />
     </Container>;
 };
 
 const Container = styled.div`
     width: 100%;
     height: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
 `;
 
