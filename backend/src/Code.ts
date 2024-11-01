@@ -26,6 +26,8 @@ function onOpen() {
     SpreadsheetApp.getUi()
         .createMenu('Drude-bar')
         .addItem('Open Sidebar', 'showSidebar')
+        .addItem('Upload file', 'showUploadDialog')
+        .addItem('Upload file dialog', 'showUploadDialogModal')
         .addToUi();
 }
 
@@ -36,4 +38,15 @@ function showSidebar() {
     const html = HtmlService.createHtmlOutputFromFile('index')
         .setTitle('Drude Add-on');
     SpreadsheetApp.getUi().showSidebar(html);
+}
+
+
+function showUploadDialog() {
+    const html = HtmlService.createHtmlOutput('<b>Hello world!</b>');
+    SpreadsheetApp.getUi().showModelessDialog(html, 'Drude File upload');
+}
+
+function showUploadDialogModal() {
+    const html = HtmlService.createHtmlOutput('<b>Hello world modal!</b>');
+    SpreadsheetApp.getUi().showModalDialog(html, 'Drude File upload modal');
 }
