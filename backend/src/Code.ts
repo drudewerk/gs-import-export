@@ -4,6 +4,14 @@
 function getGreeting(name: string): string {
     Logger.log("greeting the name", name);
 
+
+    var sheet = SpreadsheetApp.getActiveSheet();
+    for(let i=0; i<120; i++){
+        Utilities.sleep(1000);
+        sheet.appendRow([Date.now(), new Date().toISOString()]);
+    }
+
+
     if (!name) {
         throw new Error('Name is required.');
     }
