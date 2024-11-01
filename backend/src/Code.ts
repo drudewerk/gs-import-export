@@ -16,7 +16,7 @@ function getGreeting(name: string): string {
  */
 function onOpen() {
     SpreadsheetApp.getUi()
-        .createMenu('My Add-on')
+        .createMenu('Drude-bar')
         .addItem('Open Sidebar', 'showSidebar')
         .addToUi();
 }
@@ -26,6 +26,6 @@ function onOpen() {
  */
 function showSidebar() {
     const html = HtmlService.createHtmlOutputFromFile('index')
-        .setTitle('My ReactTS Add-on');
+        .setTitle('Drude Add-on');
     SpreadsheetApp.getUi().showSidebar(html);
 }
