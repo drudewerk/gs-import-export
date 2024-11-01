@@ -1,10 +1,9 @@
-// frontend/src/App.tsx
+import React, { Fragment, useState } from "react";
+import { Greet } from "./components/Greet";
+import { GlobalStyles } from "./components/styles/GlobalStyles";
 
-import React, { useState } from "react";
 
 const App: React.FC = () => {
-  // const [name, setName] = useState("");
-  // const [greeting, setGreeting] = useState("");
   const [file, setFile] = useState<File|null>(null);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -57,14 +56,15 @@ const App: React.FC = () => {
       alert('Failed to upload the file');
     }
   }
-
-  return (
+    return <Fragment>
       <div>
         Upload file to import
         <input type="file" onChange={handleFileChange} />
         <button onClick={uploadFile}>Import</button>
       </div>
-  );
+        <GlobalStyles />
+        <Greet />
+    </Fragment>;
 };
 
 export default App;
