@@ -1,14 +1,10 @@
-function startImportFile() {
-
-}
-
-async function importJsonFile(data: string, fileType: string, fileName: string) {
+function importJsonFile(uploadData: UploadData) {
     // Access the data as base64 encoded 
 
     const blob: GoogleAppsScript.Base.Blob = Utilities.newBlob(
-        Utilities.base64Decode(data),
-        fileType,
-        fileName
+        Utilities.base64Decode(uploadData.data),
+        uploadData.fileType,
+        uploadData.fileName
     );
 
     // Convert Blob to String (assuming text-based file like CSV or JSON)
@@ -17,11 +13,12 @@ async function importJsonFile(data: string, fileType: string, fileName: string) 
     // Create a JSON object depending on the file type
     let jsonObject: object | null = null;
 
-    if (fileType === "application/json") {
+    if (uploadData.fileType === "application/json") {
         // Parse JSON content
         jsonObject = JSON.parse(fileContent);
-        processJsonObject(jsonObject);
-    } else if (fileType === "text/csv") {
+        let data = processJsonObject(jsonObject, uploadData.options);
+        insertDataToSheet(data, uploadData.options);
+    } else if (uploadData.fileType === "text/csv") {
         // Parse CSV content
         //jsonObject = parseCsvToJson(fileContent);
     } else {
@@ -29,15 +26,35 @@ async function importJsonFile(data: string, fileType: string, fileName: string) 
     }
 }
 
-function processJsonObject(jsonObject: any) {
-    const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Sheet1');
+function insertDataToSheet(data: any[][], options: UploadOptions) {
+    let sheet: GoogleAppsScript.Spreadsheet.Sheet;
+
+    if (options.sheet == "active") {
+        sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    } else {
+        if(!options.sheetName){
+            throw "When import is into not active sheet: sheet name must be provided";
+        }
+        let sheetByName = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(options.sheetName);
+        if(!sheetByName){
+            throw "Cannot find sheet by name";
+        }
+        sheet = sheetByName;
+    }
     if (!sheet) {
-        throw "Cannot import when no sheet is active";
+        throw "Cannot import when no sheet is provided";
     }
 
-    if (!Array.isArray(jsonObject)) {
-        return "Only arrays are supported";
-    }
+    // Determine where to start inserting the data.
+    const startRow = sheet.getLastRow() + 1;
+
+    // Set the range for the rows to be added.
+    const range = sheet.getRange(startRow, 1, data.length, data[0].length);
+    // Insert all rows at once.
+    range.setValues(data);
+}
+
+function processJsonObject(jsonObject: any, options: UploadOptions) {
     const result: any[][] = [];
     const rows: any[] = [];
     const keys: Set<string> = new Set();
@@ -69,11 +86,6 @@ function processJsonObject(jsonObject: any) {
         result.push(values);
     }
 
-    // Determine where to start inserting the data.
-    const startRow = sheet.getLastRow() + 1;
 
-    // Set the range for the rows to be added.
-    const range = sheet.getRange(startRow, 1, result.length, result[0].length);
-    // Insert all rows at once.
-    range.setValues(result);
+    return result;
 }
