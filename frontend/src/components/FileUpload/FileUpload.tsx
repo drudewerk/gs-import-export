@@ -1,58 +1,62 @@
-import { FC, useState } from "react";
+import { FC, useCallback } from "react";
+import styled, { css } from "styled-components";
+import { Button } from "../../framework/Button/Button";
+import { useDropzone } from "react-dropzone";
+import { ButtonType } from "../../framework/Button/types";
+import uploadBackgroundSrc from "../../assets/upload_background.png";
 
 
-export const FileUpload: FC = () => {
-    const [file, setFile] = useState<File | null>(null);
-
-    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (!event.target.files || !event.target.files[0]) {
-            return;
-        }
-
-        setFile(event.target.files[0]);
-    };
-
-    const uploadFile = () => {
-        if (!file) {
-            alert("Please select a file to upload.");
-            return;
-        }
-
-        try {
-            // Read the file as base64
-            const reader = new FileReader();
-            reader.onloadend = async () => {
-                const fileType = file.type;
-                const fileName = file.name;
-                console.log(reader.result);
-                if (typeof reader.result != "string") {
-                    return;
-                }
-                const base64String = reader.result?.split(",")[1];
-
-                google.script.run.withSuccessHandler(x => {
-                    alert(`File ${x} uploaded successfully!`);
-                }).importJsonFile({
-                  data: base64String,
-                  fileName: fileName,
-                  fileType: fileType,
-                  options: {
-                    sheet: "active",
-                    sheetName: null,
-                    startAt: "lastRow"
-                  }  
-                });
-            };
-            reader.readAsDataURL(file);
-        } catch (error) {
-            console.error("File upload failed", error);
-            alert("Failed to upload the file");
-        }
-    };
-
-    return <div>
-        Upload file to import
-        <input type="file" onChange={handleFileChange} />
-        <button onClick={uploadFile}>Import</button>
-    </div>;
+type FileUploadProps = {
+    onUploaded: (file: File) => void;
 };
+
+export const FileUpload: FC<FileUploadProps> = ({ onUploaded }) => {
+    const onDrop = useCallback((acceptedFiles: File[]) => {
+        onUploaded(acceptedFiles[0]);
+    }, [onUploaded]);
+
+    const { getRootProps, getInputProps, isDragActive } = useDropzone({
+        onDrop,
+        accept: {
+            "json": [".json"]
+        }
+    });
+
+    return <Container {...getRootProps()} $dragActive={isDragActive}>
+        <input {...getInputProps()} />
+        <UploadBackgroundImg src={uploadBackgroundSrc} />
+        <Button
+            type={ButtonType.primary}
+        >
+            Browse
+        </Button>
+        <DragText>
+            or drag file here
+        </DragText>
+    </Container>;
+};
+
+const Container = styled.div<{ $dragActive: boolean; }>`
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 16px;
+    border-width: 5px;
+    border-style: dashed;
+    border-color: transparent;
+
+    ${p => p.$dragActive && css`border-color: #dadce0;`}
+`;
+
+const UploadBackgroundImg = styled.img`
+    width: 300px;
+    height: 180px;
+`;
+
+const DragText = styled.span`
+    color: rgb(128, 134, 139);
+    font-size: 20px;
+`;
