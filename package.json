@@ -1,0 +1,23 @@
+{
+  "name": "drudejson",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "install:frontend": "cd frontend && npm install",
+    "install:backend": "cd backend && npm install",
+    "install-deps": "npm i && npm run install:frontend && npm run install:backend",
+    "build:frontend": "cd frontend && npm run build",
+    "build:backend": "cd backend && npm run build",
+    "build": "npm run build:frontend && npm run build:backend",
+    "push": "cd apps-script && clasp push",
+    "copy": "node copyToAppsScript.js",
+    "deploy": "npm run build && npm run copy && npm run push"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "fs-extra": "11.2.0"
+  }
+}

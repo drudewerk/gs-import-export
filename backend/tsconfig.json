@@ -1,0 +1,23 @@
+{
+    "compilerOptions": {
+        "target": "ES6",
+        "module": "none",
+        "lib": [
+            "ES6"
+        ],
+        "strict": true,
+        "noImplicitAny": false,
+        "sourceMap": false,
+        "outDir": "dist",
+        "rootDir": "src",
+        "typeRoots": [
+            "./node_modules/@types"
+        ],
+        "types": [
+            "google-apps-script"
+        ]
+    },
+    "include": [
+        "src/**/*"
+    ]
+}
