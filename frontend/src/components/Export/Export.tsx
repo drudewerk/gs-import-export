@@ -1,7 +1,8 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 
 
 export const Export: FC = () => {
+    const [isDownloading, setIsDownloading] = useState(false);
 
     const handleDownload = async () => {
         try {
@@ -20,17 +21,22 @@ export const Export: FC = () => {
                 const currentTimestamp = Date.now();
                 link.download = response.fileName + "_" + currentTimestamp + '.json'; // Set the filename
                 link.click(); // Trigger the download
+                setIsDownloading(false);
             }).sheetDataToArray();
-
-
-            // Create a download link
-
+            setIsDownloading(true);
         } catch (error) {
             console.error('Error downloading the file:', error);
         }
     };
 
-    return <p>
-        <a href="javascript:" onClick={handleDownload}>Download data as JSON</a>
-    </p>;
+    if (isDownloading) {
+        return <p>
+            Please wait...
+        </p>
+    }
+    else {
+        return <p>
+            <a href="javascript:" onClick={handleDownload}>Download data as JSON</a>
+        </p>;
+    }
 };
