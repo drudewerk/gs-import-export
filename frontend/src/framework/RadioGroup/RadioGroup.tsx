@@ -16,11 +16,16 @@ const RadioOption: React.FC<RadioOptionProps> = ({ value, label, disabled }) => 
 export const RadioGroup: React.FC<RadioGroupProps> = ({
     description,
     options,
+    defaultValue,
     disabled,
     onChange
 }) => {
     return (
-        <RadioGroupContainer disabled={disabled} onValueChange={onChange}>
+        <RadioGroupContainer
+            disabled={disabled}
+            onValueChange={onChange}
+            defaultValue={defaultValue}
+        >
             <Description>{description}</Description>
             {options.map((option) => (
                 <RadioOption

@@ -15,13 +15,14 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Primary: Story = {
+export const Default: Story = {
     args: {
         description: "Notify me at drudewerk@gmail.com when...",
+        defaultValue: "3",
         options: [
             {
                 value: "1",
-                label: "Any changes are made"
+                label: "Any changes are made",
             },
             {
                 value: "2",
@@ -29,7 +30,7 @@ export const Primary: Story = {
             },
             {
                 value: "3",
-                label: "Never"
+                label: "Never",
             }
         ]
     },
