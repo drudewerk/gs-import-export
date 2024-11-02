@@ -48,6 +48,7 @@ function exportJson() {
     <script type="module" crossorigin>
         // Call this function directly to trigger download
         async function downloadJSON () {
+            const p = document.getElementById("Export");
             try {
                 await google.script.run.withSuccessHandler((response) => {
                     const data = response.data;
@@ -66,11 +67,16 @@ function exportJson() {
                     const currentTimestamp = Date.now();
                     link.download = response.fileName + "_" + currentTimestamp + '.json'; // Set the filename
                     link.click(); // Trigger the download
-                    const p = document.getElementById("Export");
+                    
                     p.innerText = "Finished. You can close the dialog";
-                }).sheetDataToArray();
+                })
+                    .withFailureHandler(() => {
+                        p.innerText = "Error, please try again";
+                    })
+                    .sheetDataToArray();
             } catch (error) {
                 console.error('Error downloading the file:', error);
+                p.innerText = "Error, please try again";
             }         
         }; 
         window.onload = downloadJSON;    
