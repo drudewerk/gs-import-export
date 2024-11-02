@@ -2,6 +2,7 @@ import { FC, useState } from "react";
 import { FileUpload } from "./FileUpload/FileUpload";
 import { FileImport } from "./FileImport/FileImport";
 import styled from "styled-components";
+import { Options } from "./Options/Options";
 
 
 export const Controller: FC = () => {
@@ -18,10 +19,12 @@ export const Controller: FC = () => {
     return <Container>
         <FileUpload onUploaded={onFileUploaded} />
         <FileImport file={file} onRemove={onFileRemove} />
+        <Options />
     </Container>;
 };
 
 const Container = styled.div`
+    position: relative;
     width: 100%;
     height: 100%;
     display: flex;
