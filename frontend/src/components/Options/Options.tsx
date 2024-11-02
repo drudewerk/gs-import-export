@@ -25,7 +25,7 @@ export const Options: FC = () => {
     };
 
     return (
-        <OptionsContainer isOpen={isOpen}>
+        <OptionsContainer $isOpen={isOpen}>
             <Header onClick={togglePanel}>
                 <span>Options</span>
                 {isOpen ? <ChevronDownIcon /> : <ChevronUpIcon />}
@@ -74,15 +74,12 @@ export const Options: FC = () => {
 };
 
 
-const OptionsContainer = styled.div<{ isOpen: boolean; }>`
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    max-height: ${({ isOpen }) => (isOpen ? `calc(${HEADER_HEIGHT} + ${CONTENT_HEIGHT})` : HEADER_HEIGHT)};
+const OptionsContainer = styled.div<{ $isOpen: boolean; }>`
+    max-height: ${({ $isOpen }) => ($isOpen ? `calc(${HEADER_HEIGHT} + ${CONTENT_HEIGHT})` : HEADER_HEIGHT)};
     transition: max-height 0.2s ease-in-out;
     background-color: #ffffff;
-    overflow: hidden;
+    flex-shrink: 0;
+    width: 100%;
 `;
 
 const Header = styled.div`
@@ -100,6 +97,7 @@ const Header = styled.div`
 `;
 
 const Content = styled.div`
+    width: 100%;
     padding: 16px;
     max-height: ${CONTENT_HEIGHT};
     overflow-y: auto;

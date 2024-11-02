@@ -29,18 +29,24 @@ export const FileImport: FC<FileImportProps> = ({ files, onRemove }) => {
     });
 
     return <Container>
-        {files?.map(file => (<FileTile
-            file={file}
-            onRemove={onRemove}
-            importing={importing}
-            imported={imported}
-        />))}
-        <Button
+        {
+            files?.length
+                ? <Files>
+                    {files?.map(file => (<FileTile
+                        file={file}
+                        onRemove={onRemove}
+                        importing={importing}
+                        imported={imported}
+                    />))}
+                </Files>
+                : null
+        }
+        <ImportButton
             onClick={start}
             disabled={!files || files.length == 0 || importing || imported}
         >
             Import
-        </Button>
+        </ImportButton>
     </Container>;
 };
 
@@ -52,6 +58,21 @@ const Container = styled.div`
     align-items: flex-start;
     gap: 16px;
     border-top: 1px solid #dadce0;
-    padding: 0 16px;
-    padding-top: 16px;
+    padding: 16px;
+    overflow: hidden;
+`;
+
+const Files = styled.div`
+    display: flex;
+    width: 100%;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 8px;
+    overflow-y: auto;
+    flex: 1;
+`;
+
+const ImportButton = styled(Button)`
+    flex-shrink: 0;
 `;
