@@ -1,20 +1,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-var */
-// frontend/src/globals.d.ts
+
 
 type UploadOptions = {
-    sheet: "active" | "name"
-    sheetName: string | null
-    startAt: "selection" | "lastRow"
-}
+    sheet?: "active" | "name";
+    sheetName?: string;
+    startAt?: "selection" | "lastRow";
+};
 
 type UploadData = {
-    data: string, 
-    fileType: string, 
-    fileName: string,
-    options: UploadOptions
-}
+    data: string;
+    fileType: string;
+    fileName: string;
+    options: UploadOptions;
+};
 
 interface GoogleScriptRun {
     withSuccessHandler: <T>(callback: (result: T) => void) => GoogleScriptRun;
