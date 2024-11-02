@@ -77,7 +77,7 @@ function exportJson() {
     </script>
   </head>
   <body>
-      <p id="Export">Please, wait. Exporting File...</p>   
+      <span id="Export">Please, wait. Exporting File...</span>   
   </body>
 </html>
         `    );
