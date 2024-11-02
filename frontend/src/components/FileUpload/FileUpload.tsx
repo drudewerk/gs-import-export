@@ -4,6 +4,8 @@ import { Button } from "../../framework/Button/Button";
 import { useDropzone } from "react-dropzone";
 import { ButtonType } from "../../framework/Button/types";
 import uploadBackgroundSrc from "../../assets/upload_background.png";
+import { importingAtom } from "../../state/app";
+import { useAtomValue } from "jotai";
 
 
 type FileUploadProps = {
@@ -11,15 +13,19 @@ type FileUploadProps = {
 };
 
 export const FileUpload: FC<FileUploadProps> = ({ onUploaded }) => {
+    const importing = useAtomValue(importingAtom);
+
     const onDrop = useCallback((acceptedFiles: File[]) => {
         onUploaded(acceptedFiles[0]);
     }, [onUploaded]);
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
         onDrop,
+        disabled: importing,
         accept: {
             "json": [".json"]
-        }
+        },
+        multiple: false
     });
 
     return <Container {...getRootProps()} $dragActive={isDragActive}>
@@ -27,6 +33,7 @@ export const FileUpload: FC<FileUploadProps> = ({ onUploaded }) => {
         <UploadBackgroundImg src={uploadBackgroundSrc} />
         <Button
             type={ButtonType.primary}
+            disabled={importing}
         >
             Browse
         </Button>

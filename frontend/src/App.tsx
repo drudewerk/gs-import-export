@@ -4,11 +4,10 @@ import { Controller } from "./components/Controller";
 
 
 const App: React.FC = () => {
-
-  return <Fragment>
-    <GlobalStyles />
-    <Controller />
-  </Fragment>;
+    return <Fragment>
+        <GlobalStyles />
+        <Controller />
+    </Fragment>;
 };
 
 export default App;

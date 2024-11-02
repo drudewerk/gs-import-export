@@ -1,4 +1,6 @@
 import { useCallback, useLayoutEffect, useState } from "react";
+import { importingAtom } from "../../state/app";
+import { useAtom } from "jotai";
 
 
 type FileImportOptions = {
@@ -20,12 +22,12 @@ export const useFileImport = ({
     options
 }: FileImportProps) => {
     const [imported, setImported] = useState(false);
-    const [importing, setImporting] = useState(false);
+    const [importing, setImporting] = useAtom(importingAtom);
 
     useLayoutEffect(() => {
         setImported(false);
         setImporting(false);
-    }, [file]);
+    }, [file, setImporting]);
 
     const importFile = useCallback((data: string, fileName: string, fileType: string) => {
         google.script.run.withSuccessHandler(() => {
@@ -39,7 +41,7 @@ export const useFileImport = ({
                 ...(options ?? {})
             }
         });
-    }, [options]);
+    }, [options, setImporting]);
 
     const uploadFile = useCallback(() => {
         if (!file) {
@@ -69,7 +71,7 @@ export const useFileImport = ({
             console.error("File upload failed", error);
             onError(error);
         }
-    }, [file, importFile, onError]);
+    }, [file, importFile, onError, setImporting]);
 
     return {
         start: () => uploadFile(),
