@@ -6,13 +6,13 @@ import { FileTile } from "./FileTile";
 
 
 type FileImportProps = {
-    file: File | undefined;
-    onRemove: () => void;
+    files: File[] | undefined;
+    onRemove: (file: File) => void;
 };
 
-export const FileImport: FC<FileImportProps> = ({ file, onRemove }) => {
+export const FileImport: FC<FileImportProps> = ({ files, onRemove }) => {
     const { start, importing, imported } = useFileImport({
-        file: file,
+        files,
         onSuccess: () => null,
         onError: () => null,
         options: {
@@ -23,15 +23,15 @@ export const FileImport: FC<FileImportProps> = ({ file, onRemove }) => {
     });
 
     return <Container>
-        <FileTile
+        {files?.map(file => (<FileTile
             file={file}
             onRemove={onRemove}
             importing={importing}
             imported={imported}
-        />
+        />))}
         <Button
             onClick={start}
-            disabled={!file || importing}
+            disabled={!files || importing}
         >
             Import
         </Button>

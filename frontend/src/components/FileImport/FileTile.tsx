@@ -6,7 +6,7 @@ import { FileState } from "./FileState";
 
 export type FileTileProps = {
     file: File | undefined;
-    onRemove: () => void;
+    onRemove: (file: File) => void;
     importing: boolean;
     imported: boolean;
 };
@@ -38,7 +38,7 @@ export const FileTile: FC<FileTileProps> = ({ file, onRemove, importing, importe
             <FileState
                 imported={imported}
                 importing={importing}
-                onRemove={onRemove}
+                onRemove={() => onRemove(file)}
             />
         </FileTileRightPart>
     </FileTileContainer>;

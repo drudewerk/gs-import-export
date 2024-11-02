@@ -9,14 +9,14 @@ import { useAtomValue } from "jotai";
 
 
 type FileUploadProps = {
-    onUploaded: (file: File) => void;
+    onUploaded: (file: File[]) => void;
 };
 
 export const FileUpload: FC<FileUploadProps> = ({ onUploaded }) => {
     const importing = useAtomValue(importingAtom);
 
     const onDrop = useCallback((acceptedFiles: File[]) => {
-        onUploaded(acceptedFiles[0]);
+        onUploaded(acceptedFiles);
     }, [onUploaded]);
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -25,7 +25,7 @@ export const FileUpload: FC<FileUploadProps> = ({ onUploaded }) => {
         accept: {
             "json": [".json"]
         },
-        multiple: false
+        multiple: true
     });
 
     return <Container {...getRootProps()} $dragActive={isDragActive}>

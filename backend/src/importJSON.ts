@@ -1,29 +1,27 @@
 function importJsonFile(uploadData: UploadData) {
-    // Access the data as base64 encoded 
+    uploadData.files.forEach(file => {
+        // Access the data as base64 encoded 
+        const blob: GoogleAppsScript.Base.Blob = Utilities.newBlob(
+            Utilities.base64Decode(file.data),
+            file.fileType,
+            file.fileName
+        );
 
-    const blob: GoogleAppsScript.Base.Blob = Utilities.newBlob(
-        Utilities.base64Decode(uploadData.data),
-        uploadData.fileType,
-        uploadData.fileName
-    );
+        // Convert Blob to String (assuming text-based file like CSV or JSON)
+        const fileContent: string = blob.getDataAsString();
 
-    // Convert Blob to String (assuming text-based file like CSV or JSON)
-    const fileContent: string = blob.getDataAsString();
+        // Create a JSON object depending on the file type
+        let jsonObject: object | null = null;
 
-    // Create a JSON object depending on the file type
-    let jsonObject: object | null = null;
-
-    if (uploadData.fileType === "application/json") {
-        // Parse JSON content
-        jsonObject = JSON.parse(fileContent);
-        let data = processJsonObject(jsonObject, uploadData.options);
-        insertDataToSheet(data, uploadData.options);
-    } else if (uploadData.fileType === "text/csv") {
-        // Parse CSV content
-        //jsonObject = parseCsvToJson(fileContent);
-    } else {
-        throw new Error("Unsupported file type. Please upload a JSON or CSV file.");
-    }
+        if (file.fileType === "application/json") {
+            // Parse JSON content
+            jsonObject = JSON.parse(fileContent);
+            let data = processJsonObject(jsonObject, uploadData.options);
+            insertDataToSheet(data, uploadData.options);
+        } else {
+            throw new Error("Unsupported file type. Please upload a JSON file.");
+        }
+    });
 }
 
 function insertDataToSheet(data: any[][], options: UploadOptions) {
@@ -32,11 +30,11 @@ function insertDataToSheet(data: any[][], options: UploadOptions) {
     if (options.sheet == "active") {
         sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
     } else {
-        if(!options.sheetName){
+        if (!options.sheetName) {
             throw "When import is into not active sheet: sheet name must be provided";
         }
         let sheetByName = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(options.sheetName);
-        if(!sheetByName){
+        if (!sheetByName) {
             throw "Cannot find sheet by name";
         }
         sheet = sheetByName;
