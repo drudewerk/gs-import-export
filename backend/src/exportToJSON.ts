@@ -1,6 +1,8 @@
-function sheetDataToArray() {
+function sheetDataToArray(currentSelectionOnly: boolean) {
     let sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-    const range = sheet.getDataRange();
+    const currentSelection = sheet.getSelection().getActiveRange();
+    //todo do not crash if selected range with numbers
+    const range = currentSelectionOnly && currentSelection ? currentSelection : sheet.getDataRange();
     const startingColumnNumber = range.getColumn();
     const values = range.getValues();
     const obj = arrayToJson(values, startingColumnNumber);

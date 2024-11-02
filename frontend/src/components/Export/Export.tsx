@@ -26,7 +26,12 @@ export const Export: FC = () => {
                 link.download = response.fileName + "_" + currentTimestamp + '.json'; // Set the filename
                 link.click(); // Trigger the download
                 setIsDownloading(false);
-            }).sheetDataToArray(exportSelectionOnly == "true");
+            })
+                .withFailureHandler(() => {
+                    setIsDownloading(false);
+                    alert("Error while generating file")
+                })
+                .sheetDataToArray(exportSelectionOnly == "true");
             setIsDownloading(true);
         } catch (error) {
             console.error('Error downloading the file:', error);
