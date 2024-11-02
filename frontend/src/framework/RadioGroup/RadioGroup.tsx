@@ -1,6 +1,6 @@
 import * as RadioGroupRadix from "@radix-ui/react-radio-group";
 import styled from "styled-components";
-import React from "react";
+import React, { useCallback, useLayoutEffect, useState } from "react";
 import { RadioGroupProps, RadioOptionProps } from "./types";
 
 
@@ -20,11 +20,22 @@ export const RadioGroup: React.FC<RadioGroupProps> = ({
     disabled,
     onChange
 }) => {
+    const [checkedValue, setCheckedValue] = useState(defaultValue);
+
+    useLayoutEffect(() => {
+        setCheckedValue(defaultValue);
+    }, [defaultValue]);
+
+    const onChangeInternal = useCallback((value: string) => {
+        onChange?.(value);
+        setCheckedValue(value);
+    }, [onChange]);
+
     return (
         <RadioGroupContainer
             disabled={disabled}
-            onValueChange={onChange}
-            defaultValue={defaultValue}
+            onValueChange={onChangeInternal}
+            value={checkedValue}
         >
             <Description>{description}</Description>
             {options.map((option) => (

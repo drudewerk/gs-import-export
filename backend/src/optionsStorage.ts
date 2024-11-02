@@ -14,6 +14,7 @@ function getOptions(): UploadOptions {
             mergeFiles: false
         };
     }
-    return JSON.parse(options);
+
+    return JSON.parse(options) as UploadOptions;
 }
 

@@ -23,9 +23,9 @@ type UploadData = {
 interface GoogleScriptRun {
     withSuccessHandler: <T>(callback: (result: T) => void) => GoogleScriptRun;
     withFailureHandler: <T>(callback: (error: any) => void) => GoogleScriptRun;
-    getGreeting: (name: string) => void; // Example backend function
     importJsonFile: (uploadData: UploadData) => void;
-    sheetDataToArray: () => any;
+    saveOptions: (options: UploadOptions) => void;
+    getOptions: () => UploadOptions;
     // Add more backend functions as needed
 }
 

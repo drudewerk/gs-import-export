@@ -2,11 +2,15 @@ import * as CheckboxRadix from "@radix-ui/react-checkbox";
 import styled, { css } from "styled-components";
 import { CheckboxProps } from "./type";
 import { CheckIcon } from "@radix-ui/react-icons";
-import { useCallback, useState } from "react";
+import { useCallback, useLayoutEffect, useState } from "react";
 
 
 export const Checkbox: React.FC<CheckboxProps> = ({ label, checked, disabled, onChange }) => {
     const [checkedValue, setCheckedValue] = useState(checked);
+
+    useLayoutEffect(() => {
+        setCheckedValue(checked);
+    }, [checked]);
 
     const onChangeInternal = useCallback((value: boolean) => {
         onChange?.(value);
