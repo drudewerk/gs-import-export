@@ -8,9 +8,9 @@ import { Options } from "./Options/Options";
 export const Controller: FC = () => {
     const [files, setFiles] = useState<File[]>();
 
-    const onFileUploaded = (files: File[]) => {
+    const onFileUploaded = (files: File[], replace: boolean) => {
         setFiles((oldFiles: File[] | undefined) => {
-            if (oldFiles === undefined) {
+            if (oldFiles === undefined || replace) {
                 return files;
             }
             return oldFiles.concat(files);

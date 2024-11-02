@@ -1,4 +1,4 @@
-import { FC, useCallback } from "react";
+import { FC, useCallback, useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import { Button } from "../../framework/Button/Button";
 import { useDropzone } from "react-dropzone";
@@ -9,15 +9,24 @@ import { useAtomValue } from "jotai";
 
 
 type FileUploadProps = {
-    onUploaded: (file: File[]) => void;
+    onUploaded: (file: File[], replace: boolean) => void;
 };
 
 export const FileUpload: FC<FileUploadProps> = ({ onUploaded }) => {
     const importing = useAtomValue(importingAtom);
+    const [imported, setImported] = useState(false);
+    useEffect(() => {
+        if (imported && importing) {
+            setImported(false);
+        } else if (importing && !imported) {
+            setImported(true);
+        }
+    }, [imported, importing])
 
     const onDrop = useCallback((acceptedFiles: File[]) => {
-        onUploaded(acceptedFiles);
-    }, [onUploaded]);
+        onUploaded(acceptedFiles, imported);
+        setImported(false);
+    }, [imported, onUploaded]);
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
         onDrop,
