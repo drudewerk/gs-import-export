@@ -1,10 +1,9 @@
 import { FC, useState } from "react";
 import styled from "styled-components";
 import { ChevronUpIcon, ChevronDownIcon } from "@radix-ui/react-icons";
-import { useAtom } from "jotai";
-import { mergeFilesOptionAtom, sheetOptionAtom, startAtOptionAtom } from "../../state/options";
 import { Checkbox } from "../../framework/Checkbox/Checkbox";
 import { RadioGroup } from "../../framework/RadioGroup/RadioGroup";
+import { useOptions } from "./useOptions";
 
 
 const HEADER_HEIGHT = "32px";
@@ -12,9 +11,14 @@ const CONTENT_HEIGHT = "250px";
 
 export const Options: FC = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const [sheet, setSheet] = useAtom(sheetOptionAtom);
-    const [startAt, setStartAt] = useAtom(startAtOptionAtom);
-    const [mergeFiles, setMergeFiles] = useAtom(mergeFilesOptionAtom);
+    const {
+        sheet,
+        setSheet,
+        startAt,
+        setStartAt,
+        mergeFiles,
+        setMergeFiles
+    } = useOptions();
 
     const togglePanel = () => {
         setIsOpen((prev) => !prev);
@@ -47,22 +51,23 @@ export const Options: FC = () => {
                     defaultValue={sheet}
                     onChange={(value) => setSheet(value as UploadOptions["sheet"])}
                 />
-                <RadioGroup
-                    description="Insert data"
-                    disabled={sheet !== "active"}
-                    options={[
-                        {
-                            value: "selection",
-                            label: "At selected cell"
-                        },
-                        {
-                            value: "end",
-                            label: "At the end"
-                        }
-                    ]}
-                    defaultValue={sheet !== "active" ? "end" : startAt}
-                    onChange={(value) => setStartAt(value as UploadOptions["startAt"])}
-                />
+                {
+                    sheet === "active" && <RadioGroup
+                        description="Insert data"
+                        options={[
+                            {
+                                value: "selection",
+                                label: "At selected cell"
+                            },
+                            {
+                                value: "end",
+                                label: "At the end"
+                            }
+                        ]}
+                        defaultValue={startAt}
+                        onChange={(value) => setStartAt(value as UploadOptions["startAt"])}
+                    />
+                }
             </Content>
         </OptionsContainer>
     );
