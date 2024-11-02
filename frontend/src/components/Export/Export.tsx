@@ -3,7 +3,7 @@ import { FC } from "react";
 
 export const Export: FC = () => {
 
-    return <div>
+    return <p>
         Export
-    </div>;
+    </p>;
 };
