@@ -1,16 +1,17 @@
 function saveOptions(options: UploadOptions) {
     const scriptProperties = PropertiesService.getScriptProperties();
-    scriptProperties.setProperty('options', JSON.stringify(options));
+    scriptProperties.setProperty("options", JSON.stringify(options));
 }
 
 function getOptions(): UploadOptions {
     const scriptProperties = PropertiesService.getScriptProperties();
-    const options = scriptProperties.getProperty('options');
+    const options = scriptProperties.getProperty("options");
 
     if (!options) {
         return {
             sheet: "active",
-            startAt: "lastRow"
+            startAt: "end",
+            mergeFiles: false
         };
     }
     return JSON.parse(options);

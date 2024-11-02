@@ -4,8 +4,9 @@ import { useAtom } from "jotai";
 
 
 type FileImportOptions = {
-    sheet?: "active" | "new";
-    startAt?: "lastRow" | "selection";
+    sheet?: UploadOptions["sheet"];
+    startAt?: UploadOptions["startAt"];
+    mergeFiles?: UploadOptions["mergeFiles"];
 };
 
 type FileImportProps = {
@@ -19,7 +20,7 @@ type FileToUpload = {
     data: string;
     fileName: string;
     fileType: string;
-}
+};
 
 export const useFileImport = ({
     files: files,

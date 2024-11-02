@@ -1,15 +1,16 @@
 type UploadOptions = {
-    sheet: "active" | "new"
-    startAt: "selection" | "lastRow"
-}
+    sheet: "active" | "new";
+    startAt: "selection" | "end";
+    mergeFiles: boolean;
+};
 
 type UploadedFile = {
-    data: string,
-    fileType: string,
-    fileName: string,
-}
+    data: string;
+    fileType: string;
+    fileName: string;
+};
 
 type UploadData = {
-    files: UploadedFile[],
-    options: UploadOptions
-}
+    files: UploadedFile[];
+    options: UploadOptions;
+};

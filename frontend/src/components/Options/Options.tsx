@@ -29,7 +29,7 @@ export const Options: FC = () => {
             <Content>
                 <Checkbox
                     label="Merge data from all files together"
-                    checked={mergeFiles}
+                    checked={mergeFiles ?? false}
                     onChange={(value) => setMergeFiles(value)}
                 />
                 <RadioGroup
@@ -40,7 +40,7 @@ export const Options: FC = () => {
                             label: "Current sheet"
                         },
                         {
-                            value: "name",
+                            value: "new",
                             label: "New sheet"
                         }
                     ]}
@@ -56,11 +56,11 @@ export const Options: FC = () => {
                             label: "At selected cell"
                         },
                         {
-                            value: "lastRow",
+                            value: "end",
                             label: "At the end"
                         }
                     ]}
-                    defaultValue={sheet !== "active" ? "lastRow" : startAt}
+                    defaultValue={sheet !== "active" ? "end" : startAt}
                     onChange={(value) => setStartAt(value as UploadOptions["startAt"])}
                 />
             </Content>
