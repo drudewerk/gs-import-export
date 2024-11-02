@@ -9,17 +9,21 @@ export const Controller: FC = () => {
     useEffect(() => {
         google.script.run.withSuccessHandler((state: string) => {
             setState(state);
-        }).getCurrentState();
+        })
+            .withFailureHandler(() => {
+                setState("error");
+            })
+            .getCurrentState();
     }, []);
 
-    if (state == "import") {
-        return <Import />;
-
+    switch (state) {
+        case "import":
+            return <Import />;
+        case "export":
+            return <Export />;
+        case "error":
+            return <p>Error. Please try again</p>;
+        default:
+            return <p>Loading...</p>;
     }
-    if (state == "export") {
-        return <Export />;
-
-    }
-
-    return <p>Loading...</p>;
 };
