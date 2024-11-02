@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useLayoutEffect, useState } from "react";
 
 
 type FileImportOptions = {
@@ -21,6 +21,11 @@ export const useFileImport = ({
 }: FileImportProps) => {
     const [imported, setImported] = useState(false);
     const [importing, setImporting] = useState(false);
+
+    useLayoutEffect(() => {
+        setImported(false);
+        setImporting(false);
+    }, [file]);
 
     const importFile = useCallback((data: string, fileName: string, fileType: string) => {
         google.script.run.withSuccessHandler(() => {

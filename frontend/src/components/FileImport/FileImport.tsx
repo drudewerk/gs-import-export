@@ -31,7 +31,7 @@ export const FileImport: FC<FileImportProps> = ({ file, onRemove }) => {
         />
         <Button
             onClick={start}
-            disabled={!file}
+            disabled={!file || importing}
         >
             Import
         </Button>

@@ -1,7 +1,7 @@
-import { Cross2Icon } from "@radix-ui/react-icons";
 import { FC, useMemo } from "react";
 import jsonSrc from "../../assets/json.png";
 import styled from "styled-components";
+import { FileState } from "./FileState";
 
 
 export type FileTileProps = {
@@ -11,7 +11,7 @@ export type FileTileProps = {
     imported: boolean;
 };
 
-export const FileTile: FC<FileTileProps> = ({ file, onRemove }) => {
+export const FileTile: FC<FileTileProps> = ({ file, onRemove, importing, imported }) => {
     const fileSize = useMemo(() => {
         if (!file) {
             return 0;
@@ -35,11 +35,11 @@ export const FileTile: FC<FileTileProps> = ({ file, onRemove }) => {
         </FileTileLeftPart>
         <FileTileRightPart>
             <FileSize>{fileSize}</FileSize>
-            <FileRemove
-                onClick={onRemove}
-            >
-                <Cross2Icon />
-            </FileRemove>
+            <FileState
+                imported={imported}
+                importing={importing}
+                onRemove={onRemove}
+            />
         </FileTileRightPart>
     </FileTileContainer>;
 };
@@ -82,7 +82,7 @@ const FileTypeImg = styled.img`
 `;
 
 const FileName = styled.span`
-    max-width: 160px;
+    max-width: 130px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -91,12 +91,4 @@ const FileName = styled.span`
 const FileSize = styled.span`
     justify-self: flex-end;
     flex-shrink: 0;
-`;
-
-const FileRemove = styled.div`
-    display: flex;
-    flex-flow: row;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
 `;
