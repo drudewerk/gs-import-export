@@ -24,9 +24,9 @@ function getGreeting(name: string): string {
  */
 function onOpen() {
     SpreadsheetApp.getUi()
-        .createMenu('Import JSON')
-        .addItem('Upload file', 'showSidebar')
-        .addItem('Export as JSON', 'exportJson')
+        .createMenu('Import & Export JSON')
+        .addItem('Import JSON file(s)', 'showSidebar')
+        .addItem('Export as JSON file', 'exportJson')
         .addToUi();
 }
 
