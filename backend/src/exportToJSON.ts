@@ -19,8 +19,6 @@ function arrayToJson(array: any[][], startingColumnNumber: number): any[] | null
         return null;
     }
 
-    console.log(array);
-
     const [keys, ...values] = array;
     const result: any[] = [];
 
