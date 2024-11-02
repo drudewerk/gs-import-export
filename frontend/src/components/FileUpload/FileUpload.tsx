@@ -4,20 +4,24 @@ import { Button } from "../../framework/Button/Button";
 import { useDropzone } from "react-dropzone";
 import { ButtonType } from "../../framework/Button/types";
 import uploadBackgroundSrc from "../../assets/upload_background.png";
-import { importingAtom } from "../../state/app";
-import { useAtomValue } from "jotai";
+import { importedAtom, importingAtom } from "../../state/app";
+import { useAtom, useAtomValue } from "jotai";
 
 
 type FileUploadProps = {
-    onUploaded: (file: File) => void;
+    onUploaded: (file: File[], replace: boolean) => void;
 };
 
 export const FileUpload: FC<FileUploadProps> = ({ onUploaded }) => {
     const importing = useAtomValue(importingAtom);
+    const [imported, setImported] = useAtom(importedAtom);
 
     const onDrop = useCallback((acceptedFiles: File[]) => {
-        onUploaded(acceptedFiles[0]);
-    }, [onUploaded]);
+        onUploaded(acceptedFiles, imported);
+        if (imported) {
+            setImported(false);
+        }
+    }, [imported, onUploaded, setImported]);
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
         onDrop,
@@ -25,7 +29,7 @@ export const FileUpload: FC<FileUploadProps> = ({ onUploaded }) => {
         accept: {
             "json": [".json"]
         },
-        multiple: false
+        multiple: true
     });
 
     return <Container {...getRootProps()} $dragActive={isDragActive}>
@@ -38,7 +42,7 @@ export const FileUpload: FC<FileUploadProps> = ({ onUploaded }) => {
             Browse
         </Button>
         <DragText>
-            or drag file here
+            or drag files here
         </DragText>
     </Container>;
 };

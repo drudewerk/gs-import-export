@@ -1,5 +1,5 @@
-import { useCallback, useLayoutEffect, useState } from "react";
-import { importingAtom } from "../../state/app";
+import { useCallback, useLayoutEffect } from "react";
+import { importedAtom, importingAtom } from "../../state/app";
 import { useAtom } from "jotai";
 
 
@@ -10,71 +10,87 @@ type FileImportOptions = {
 };
 
 type FileImportProps = {
-    file: File | undefined;
+    files: File[] | undefined;
     onSuccess: () => void;
     onError: (error: unknown) => void;
     options?: FileImportOptions;
 };
 
+type FileToUpload = {
+    data: string;
+    fileName: string;
+    fileType: string;
+}
+
 export const useFileImport = ({
-    file,
+    files: files,
     onError,
     options
 }: FileImportProps) => {
-    const [imported, setImported] = useState(false);
+    const [imported, setImported] = useAtom(importedAtom);
     const [importing, setImporting] = useAtom(importingAtom);
 
     useLayoutEffect(() => {
         setImported(false);
         setImporting(false);
-    }, [file, setImporting]);
+    }, [files, setImporting, setImported]);
 
-    const importFile = useCallback((data: string, fileName: string, fileType: string) => {
+    const importFiles = useCallback((files: FileToUpload[]) => {
         google.script.run.withSuccessHandler(() => {
             setImporting(false);
             setImported(true);
         }).importJsonFile({
-            data: data,
-            fileName: fileName,
-            fileType: fileType,
+            files,
             options: {
                 ...(options ?? {})
             }
         });
-    }, [options, setImporting]);
+    }, [options, setImporting, setImported]);
 
     const uploadFile = useCallback(() => {
-        if (!file) {
-            throw new Error("File is undefined!");
+        if (!files) {
+            throw new Error("Files are undefined!");
         }
 
         setImporting(true);
 
         try {
-            // Read the file as base64
-            const reader = new FileReader();
-            reader.onloadend = async () => {
-                const fileType = file.type;
-                const fileName = file.name;
+            const fileDataList: FileToUpload[] = [];
 
-                if (typeof reader.result != "string") {
-                    setImporting(false);
-                    return;
-                }
+            // Process each file
+            files.forEach((file, i) => {
+                const reader = new FileReader();
+                reader.onload = async () => {
+                    const fileType = file.type;
+                    const fileName = file.name;
 
-                const base64String = reader.result?.split(",")[1];
+                    if (typeof reader.result != "string") {
+                        setImporting(false);
+                        return;
+                    }
 
-                importFile(base64String, fileName, fileType);
-            };
-            reader.readAsDataURL(file);
+                    const base64String = reader.result?.split(",")[1];
+                    fileDataList.push({
+                        fileType,
+                        fileName,
+                        data: base64String
+                    });
+
+                    // Once all files are processed, send them to the backend
+                    if (i === files.length - 1) {
+                        importFiles(fileDataList);
+                    }
+                };
+                reader.readAsDataURL(file);
+            });
         } catch (error) {
             console.error("File upload failed", error);
             onError(error);
         }
-    }, [file, importFile, onError, setImporting]);
+    }, [files, importFiles, onError, setImporting]);
 
     return {
-        start: () => uploadFile(),
+        start: uploadFile,
         importing,
         imported
     };

@@ -9,11 +9,15 @@ type UploadOptions = {
     startAt?: "selection" | "lastRow";
 };
 
+type UploadedFile = {
+    data: string,
+    fileType: string,
+    fileName: string,
+}
+
 type UploadData = {
-    data: string;
-    fileType: string;
-    fileName: string;
-    options: UploadOptions;
+    files: UploadedFile[],
+    options: UploadOptions
 };
 
 interface GoogleScriptRun {

@@ -6,19 +6,24 @@ import { Options } from "./Options/Options";
 
 
 export const Controller: FC = () => {
-    const [file, setFile] = useState<File>();
+    const [files, setFiles] = useState<File[]>();
 
-    const onFileUploaded = (file: File) => {
-        setFile(file);
+    const onFileUploaded = (files: File[], replace: boolean) => {
+        setFiles((oldFiles: File[] | undefined) => {
+            if (oldFiles === undefined || replace) {
+                return files;
+            }
+            return oldFiles.concat(files);
+        });
     };
 
-    const onFileRemove = () => {
-        setFile(undefined);
+    const onFileRemove = (file: File) => {
+        setFiles((oldFiles: File[] | undefined) => (oldFiles?.filter(f => f != file)));
     };
 
     return <Container>
         <FileUpload onUploaded={onFileUploaded} />
-        <FileImport file={file} onRemove={onFileRemove} />
+        <FileImport files={files} onRemove={onFileRemove} />
         <Options />
     </Container>;
 };

@@ -4,9 +4,13 @@ type UploadOptions = {
     startAt: "selection" | "lastRow"
 }
 
-type UploadData = {
-    data: string, 
-    fileType: string, 
+type UploadedFile = {
+    data: string,
+    fileType: string,
     fileName: string,
+}
+
+type UploadData = {
+    files: UploadedFile[],
     options: UploadOptions
 }
