@@ -21,6 +21,7 @@ interface GoogleScriptRun {
     withFailureHandler: <T>(callback: (error: any) => void) => GoogleScriptRun;
     getGreeting: (name: string) => void; // Example backend function
     importJsonFile: (uploadData: UploadData) => void;
+    sheetDataToArray: () => any;
     // Add more backend functions as needed
 }
 
