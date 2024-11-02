@@ -17,8 +17,7 @@ export const FileImport: FC<FileImportProps> = ({ files, onRemove }) => {
         onError: () => null,
         options: {
             sheet: "active",
-            sheetName: undefined,
-            startAt: "lastRow"
+            startAt: "selection"
         }
     });
 

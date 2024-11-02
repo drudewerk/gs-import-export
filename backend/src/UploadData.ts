@@ -1,6 +1,5 @@
 type UploadOptions = {
-    sheet: "active" | "name"
-    sheetName: string | null
+    sheet: "active" | "new"
     startAt: "selection" | "lastRow"
 }
 

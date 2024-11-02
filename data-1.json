@@ -1,0 +1,17 @@
+[
+    {
+        "id": "TEST",
+        "name_of_user": "user",
+        "telephones": [
+            {
+                "mobile": "+123432423"
+            },
+            {
+                "mobile": "+923949234"
+            },
+            {
+                "home": "08928488"
+            }
+        ]
+    }
+]
