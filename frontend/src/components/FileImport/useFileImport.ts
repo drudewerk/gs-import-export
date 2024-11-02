@@ -4,8 +4,7 @@ import { useAtom } from "jotai";
 
 
 type FileImportOptions = {
-    sheet?: "active" | "name";
-    sheetName?: string;
+    sheet?: "active" | "new";
     startAt?: "lastRow" | "selection";
 };
 

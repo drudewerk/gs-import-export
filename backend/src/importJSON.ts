@@ -1,4 +1,15 @@
 function importJsonFile(uploadData: UploadData) {
+    saveOptions(uploadData.options);
+    const currentCell = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet().getSelection().getCurrentCell();
+
+    if (uploadData.options.startAt == "selection" && currentCell == null) {
+        throw "There is no active cell, please select a cell where you want to insert data";
+    }
+
+    const initialRow = currentCell?.getRow() ?? 0;
+    const initialColumn = currentCell?.getColumn() ?? 0;
+
+    const consolidatedData: any[] = [];
     uploadData.files.forEach(file => {
         // Access the data as base64 encoded 
         const blob: GoogleAppsScript.Base.Blob = Utilities.newBlob(
@@ -16,38 +27,52 @@ function importJsonFile(uploadData: UploadData) {
         if (file.fileType === "application/json") {
             // Parse JSON content
             jsonObject = JSON.parse(fileContent);
-            let data = processJsonObject(jsonObject, uploadData.options);
-            insertDataToSheet(data, uploadData.options);
+            if (Array.isArray(jsonObject)) {
+                consolidatedData.push(...jsonObject);
+            }
+            else {
+                consolidatedData.push(...[jsonObject]);
+            }
         } else {
             throw new Error("Unsupported file type. Please upload a JSON file.");
         }
     });
+
+    const data = processJsonObject(consolidatedData, uploadData.options);
+
+    insertDataToSheet(data, uploadData.options, {
+        startRow: initialRow,
+        startColumn: initialColumn
+    });
 }
 
-function insertDataToSheet(data: any[][], options: UploadOptions) {
+function insertDataToSheet(data: any[][], options: UploadOptions, activeCell: { startRow, startColumn }) {
     let sheet: GoogleAppsScript.Spreadsheet.Sheet;
 
     if (options.sheet == "active") {
         sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
     } else {
-        if (!options.sheetName) {
-            throw "When import is into not active sheet: sheet name must be provided";
-        }
-        let sheetByName = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(options.sheetName);
-        if (!sheetByName) {
-            throw "Cannot find sheet by name";
-        }
-        sheet = sheetByName;
+        let newSheet = SpreadsheetApp.getActiveSpreadsheet()
+            .insertSheet();
+        sheet = newSheet;
     }
     if (!sheet) {
         throw "Cannot import when no sheet is provided";
     }
 
     // Determine where to start inserting the data.
-    const startRow = sheet.getLastRow() + 1;
+    let startRow;
+    let startColumn = 1;
+    if (options.startAt == "selection") {
+        startRow = activeCell.startRow;
+        startColumn = activeCell.startColumn;
+    } else {
+        startRow = sheet.getLastRow() + 1;
+    }
 
     // Set the range for the rows to be added.
-    const range = sheet.getRange(startRow, 1, data.length, data[0].length);
+    console.log("Inner", startRow, startColumn);
+    const range = sheet.getRange(startRow, startColumn, data.length, data[0].length);
     // Insert all rows at once.
     range.setValues(data);
 }

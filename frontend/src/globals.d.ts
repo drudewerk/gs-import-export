@@ -4,8 +4,7 @@
 
 
 type UploadOptions = {
-    sheet?: "active" | "name";
-    sheetName?: string;
+    sheet?: "active" | "new";
     startAt?: "selection" | "lastRow";
 };
 
