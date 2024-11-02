@@ -1,5 +1,7 @@
 function importJsonFile(uploadData: UploadData) {
 
+    saveOptions(uploadData.options);
+
     const currentCell = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet().getSelection().getCurrentCell();
 
     if (uploadData.options.startAt == "selection" && currentCell == null) {
