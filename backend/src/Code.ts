@@ -6,7 +6,7 @@ function getGreeting(name: string): string {
 
 
     var sheet = SpreadsheetApp.getActiveSheet();
-    for(let i=0; i<120; i++){
+    for (let i = 0; i < 120; i++) {
         Utilities.sleep(1000);
         sheet.appendRow([Date.now(), new Date().toISOString()]);
     }
@@ -24,10 +24,8 @@ function getGreeting(name: string): string {
  */
 function onOpen() {
     SpreadsheetApp.getUi()
-        .createMenu('Drude-bar')
-        .addItem('Open Sidebar', 'showSidebar')
-        .addItem('Upload file', 'showUploadDialog')
-        .addItem('Upload file dialog', 'showUploadDialogModal')
+        .createMenu('Import JSON')
+        .addItem('Upload file', 'showSidebar')
         .addToUi();
 }
 
@@ -38,15 +36,4 @@ function showSidebar() {
     const html = HtmlService.createHtmlOutputFromFile('index')
         .setTitle('Drude Add-on');
     SpreadsheetApp.getUi().showSidebar(html);
-}
-
-
-function showUploadDialog() {
-    const html = HtmlService.createHtmlOutput('<b>Hello world!</b>');
-    SpreadsheetApp.getUi().showModelessDialog(html, 'Drude File upload');
-}
-
-function showUploadDialogModal() {
-    const html = HtmlService.createHtmlOutput('<b>Hello world modal!</b>');
-    SpreadsheetApp.getUi().showModalDialog(html, 'Drude File upload modal');
 }
