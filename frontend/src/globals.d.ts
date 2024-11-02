@@ -28,7 +28,7 @@ interface GoogleScriptRun {
     getOptions: () => UploadOptions;
     // Add more backend functions as needed
     getCurrentState: () => string;
-    sheetDataToArray: () => void;
+    sheetDataToArray: (selectionOnly: boolean) => void;
 }
 
 interface Google {
