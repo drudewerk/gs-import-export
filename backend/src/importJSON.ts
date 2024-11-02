@@ -1,5 +1,4 @@
 function importJsonFile(uploadData: UploadData) {
-    let offsetRows = 0;
 
     const currentCell = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet().getSelection().getCurrentCell();
 
@@ -10,7 +9,7 @@ function importJsonFile(uploadData: UploadData) {
     const initialRow = currentCell?.getRow() ?? 0;
     const initialColumn = currentCell?.getColumn() ?? 0;
 
-    offsetRows += initialRow;
+    const consolidatedData: any[] = [];
     uploadData.files.forEach(file => {
         // Access the data as base64 encoded 
         const blob: GoogleAppsScript.Base.Blob = Utilities.newBlob(
@@ -28,16 +27,22 @@ function importJsonFile(uploadData: UploadData) {
         if (file.fileType === "application/json") {
             // Parse JSON content
             jsonObject = JSON.parse(fileContent);
-            let data = processJsonObject(jsonObject, uploadData.options);
-
-            insertDataToSheet(data, uploadData.options, {
-                startRow: offsetRows,
-                startColumn: initialColumn
-            });
-            offsetRows += data.length;
+            if (Array.isArray(jsonObject)) {
+                consolidatedData.push(...jsonObject);
+            }
+            else {
+                consolidatedData.push(...[jsonObject]);
+            }
         } else {
             throw new Error("Unsupported file type. Please upload a JSON file.");
         }
+    });
+
+    const data = processJsonObject(consolidatedData, uploadData.options);
+
+    insertDataToSheet(data, uploadData.options, {
+        startRow: initialRow,
+        startColumn: initialColumn
     });
 }
 
