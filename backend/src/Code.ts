@@ -28,3 +28,9 @@ function showSidebar(state: 'import' | 'export', title: string) {
         .setTitle(title);
     SpreadsheetApp.getUi().showSidebar(html);
 }
+
+
+function getCurrentState() {
+    const props = PropertiesService.getScriptProperties();
+    return props.getProperty(CSTATE);
+}
