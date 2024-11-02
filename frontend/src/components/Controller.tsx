@@ -9,7 +9,12 @@ export const Controller: FC = () => {
     const [files, setFiles] = useState<File[]>();
 
     const onFileUploaded = (files: File[]) => {
-        setFiles(files);
+        setFiles((oldFiles: File[] | undefined) => {
+            if (oldFiles === undefined) {
+                return files;
+            }
+            return oldFiles.concat(files);
+        });
     };
 
     const onFileRemove = (file: File) => {
