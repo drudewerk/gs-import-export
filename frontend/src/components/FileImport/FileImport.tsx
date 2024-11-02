@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { Button } from "../../framework/Button/Button";
 import { useFileImport } from "./useFileImport";
 import { FileTile } from "./FileTile";
+import { useAtomValue } from "jotai";
+import { sheetOptionAtom, startAtOptionAtom } from "../../state/options";
 
 
 type FileImportProps = {
@@ -11,13 +13,17 @@ type FileImportProps = {
 };
 
 export const FileImport: FC<FileImportProps> = ({ files, onRemove }) => {
+    const sheetOption = useAtomValue(sheetOptionAtom);
+    const startAt = useAtomValue(startAtOptionAtom);
+    // const mergeFiles = useAtomValue(mergeFilesOptionAtom);
+
     const { start, importing, imported } = useFileImport({
         files,
         onSuccess: () => null,
         onError: () => null,
         options: {
-            sheet: "active",
-            startAt: "lastRow"
+            sheet: sheetOption,
+            startAt: startAt
         }
     });
 

@@ -32,12 +32,13 @@ const CheckboxContainer = styled(CheckboxRadix.Root)`
     flex-flow: row nowrap;
     align-items: center;
     justify-content: flex-start;
-    gap: 16px;
+    gap: 8px;
     cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
     background: none;
     border: none;
     outline: none;
     border-radius: 4px;
+    padding: 0;
 `;
 
 const CheckboxOuter = styled.div<{ $checked: boolean; }>`
