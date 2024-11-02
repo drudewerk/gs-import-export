@@ -25,7 +25,7 @@ function getGreeting(name: string): string {
 function onOpen() {
     SpreadsheetApp.getUi()
         .createMenu('Import & Export JSON')
-        .addItem('Import JSON file(s)', 'showSidebar')
+        .addItem('Import JSON files', 'showSidebar')
         .addItem('Export as JSON file', 'exportJson')
         .addToUi();
 }
@@ -35,7 +35,7 @@ function onOpen() {
  */
 function showSidebar() {
     const html = HtmlService.createHtmlOutputFromFile('index')
-        .setTitle('Import JSON');
+        .setTitle('Import JSON files');
     SpreadsheetApp.getUi().showSidebar(html);
 }
 
