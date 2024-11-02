@@ -2,6 +2,7 @@ import { RadioGroup } from "../../framework/RadioGroup/RadioGroup";
 import { Button } from "../../framework/Button/Button";
 
 import { FC, useCallback, useState } from "react";
+import styled from "styled-components";
 
 
 export const Export: FC = () => {
@@ -38,7 +39,7 @@ export const Export: FC = () => {
         }
     }, [exportSelectionOnly]);
 
-    return <div>
+    return <Container>
         <RadioGroup
             disabled={isDownloading}
             description="Export range"
@@ -61,5 +62,18 @@ export const Export: FC = () => {
         >
             {isDownloading ? "Please wait..." : "Download data as JSON"}
         </Button>
-    </div>;
+    </Container>;
 };
+
+
+const Container = styled.div`
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    gap: 8px;
+    padding: 12px;
+    padding-top: 0px;
+`;
