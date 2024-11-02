@@ -10,6 +10,8 @@ function importJsonFile(uploadData: UploadData) {
     const initialColumn = currentCell?.getColumn() ?? 0;
 
     const consolidatedData: any[] = [];
+    let offsetRows = 0;
+    offsetRows += initialRow;
     uploadData.files.forEach(file => {
         // Access the data as base64 encoded 
         const blob: GoogleAppsScript.Base.Blob = Utilities.newBlob(
@@ -27,23 +29,29 @@ function importJsonFile(uploadData: UploadData) {
         if (file.fileType === "application/json") {
             // Parse JSON content
             jsonObject = JSON.parse(fileContent);
-            if (Array.isArray(jsonObject)) {
-                consolidatedData.push(...jsonObject);
-            }
-            else {
-                consolidatedData.push(...[jsonObject]);
+            const arrayObject = Array.isArray(jsonObject) ? jsonObject : [jsonObject];
+            if (uploadData.options.mergeFiles) {
+                consolidatedData.push(...arrayObject);
+            } else {
+                const dataFromSingleFile = processJsonObject(arrayObject, uploadData.options);
+                insertDataToSheet(dataFromSingleFile, uploadData.options, {
+                    startRow: offsetRows,
+                    startColumn: initialColumn
+                });
+                offsetRows += dataFromSingleFile.length;
             }
         } else {
             throw new Error("Unsupported file type. Please upload a JSON file.");
         }
     });
 
-    const data = processJsonObject(consolidatedData, uploadData.options);
-
-    insertDataToSheet(data, uploadData.options, {
-        startRow: initialRow,
-        startColumn: initialColumn
-    });
+    if (uploadData.options.mergeFiles) {
+        const data = processJsonObject(consolidatedData, uploadData.options);
+        insertDataToSheet(data, uploadData.options, {
+            startRow: initialRow,
+            startColumn: initialColumn
+        });
+    }
 }
 
 function insertDataToSheet(data: any[][], options: UploadOptions, activeCell: { startRow, startColumn }) {
