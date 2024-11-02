@@ -34,6 +34,6 @@ export const GlobalStyles = createGlobalStyle`
 
     #root {
         width: 320px;
-        padding: 16px;
+        padding: 16px 0px;
     }
 `;
