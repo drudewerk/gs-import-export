@@ -27,18 +27,19 @@ export const Toast: FC<ToastProps> = ({
 
 const Container = styled.div<{ type: ToastType; }>`
     position: absolute;
-    width: 100%;
     max-height: 100px;
     padding: 12px;
     bottom: 16px;
     left: 16px;
     right: 16px;
     border-left: 4px solid ${p => getColorPerType(p.type)};
+    background-color: #ffffff;
     box-shadow: 0 4px 8px 3px rgba(60,64,67,.15);
     border-radius: 4px;
     font-size: 13px;
     overflow: scroll;
     overflow-wrap: break-word;
+    z-index: 100000;
 `;
 
 const Title = styled.div<{ type: ToastType; }>`

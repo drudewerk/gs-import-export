@@ -1,6 +1,7 @@
 import { useCallback, useLayoutEffect } from "react";
 import { importedAtom, importingAtom } from "../../state/app";
 import { useAtom } from "jotai";
+import { useErrorOverlay } from "../ErrorOverlay/useErrorOverlay";
 
 
 type FileImportOptions = {
@@ -11,8 +12,6 @@ type FileImportOptions = {
 
 type FileImportProps = {
     files: File[] | undefined;
-    onSuccess: () => void;
-    onError: (error: unknown) => void;
     options?: FileImportOptions;
 };
 
@@ -24,11 +23,14 @@ type FileToUpload = {
 
 export const useFileImport = ({
     files: files,
-    onError,
     options
 }: FileImportProps) => {
     const [imported, setImported] = useAtom(importedAtom);
     const [importing, setImporting] = useAtom(importingAtom);
+    const {
+        setError,
+        resetError
+    } = useErrorOverlay();
 
     useLayoutEffect(() => {
         setImported(false);
@@ -36,22 +38,35 @@ export const useFileImport = ({
     }, [files, setImporting, setImported]);
 
     const importFiles = useCallback((files: FileToUpload[]) => {
-        google.script.run.withSuccessHandler(() => {
-            setImporting(false);
-            setImported(true);
-        }).importJsonFile({
-            files,
-            options: {
-                ...(options ?? {})
-            }
-        });
-    }, [options, setImporting, setImported]);
+        resetError();
+        google.script.run
+            .withSuccessHandler(() => {
+                setImporting(false);
+                setImported(true);
+            })
+            .withFailureHandler((error) => {
+                setImported(false);
+                setImporting(false);
+                setError(
+                    "Failed to import files",
+                    error.message
+                );
+                console.error(error);
+            })
+            .importJsonFile({
+                files,
+                options: {
+                    ...(options ?? {})
+                }
+            });
+    }, [resetError, options, setImporting, setImported, setError]);
 
     const uploadFile = useCallback(() => {
         if (!files) {
             throw new Error("Files are undefined!");
         }
 
+        resetError();
         setImporting(true);
 
         try {
@@ -84,10 +99,15 @@ export const useFileImport = ({
                 reader.readAsDataURL(file);
             });
         } catch (error) {
+            setImporting(false);
+            setImported(false);
+            setError(
+                "Failed to upload files",
+                (error as { message: string; })?.message
+            );
             console.error("File upload failed", error);
-            onError(error);
         }
-    }, [files, importFiles, onError, setImporting]);
+    }, [files, importFiles, resetError, setError, setImported, setImporting]);
 
     return {
         start: uploadFile,

@@ -9,15 +9,24 @@ export const useOptions = () => {
     const [mergeFiles, setMergeFiles] = useAtom(mergeFilesOptionAtom);
 
     useEffect(() => {
-        google.script.run.withSuccessHandler((value: UploadOptions) => {
-            setSheet(value.sheet);
-            setStartAt(value.startAt);
-            setMergeFiles(value.mergeFiles);
-        }).getOptions();
+        google.script.run
+            .withSuccessHandler((value: UploadOptions) => {
+                setSheet(value.sheet);
+                setStartAt(value.startAt);
+                setMergeFiles(value.mergeFiles);
+            })
+            .withFailureHandler((error) => {
+                console.error(error);
+            })
+            .getOptions();
     }, [setMergeFiles, setSheet, setStartAt]);
 
     const saveOptions = useCallback((options: UploadOptions) => {
-        google.script.run.saveOptions(options);
+        google.script.run
+            .withFailureHandler((error) => {
+                console.error(error);
+            })
+            .saveOptions(options);
     }, []);
 
     const saveSheet = useCallback((value: UploadOptions["sheet"]) => {

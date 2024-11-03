@@ -19,8 +19,6 @@ export const FileImport: FC<FileImportProps> = ({ files, onRemove }) => {
 
     const { start, importing, imported } = useFileImport({
         files,
-        onSuccess: () => null,
-        onError: () => null,
         options: {
             sheet: sheetOption,
             startAt: startAt,
