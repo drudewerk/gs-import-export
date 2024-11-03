@@ -72,3 +72,10 @@ In the Apps Script Editor:
 - In the spreadsheet, click Extensions
   - Select your extension > Open sidebar
   - Sidebar should open
+
+
+## License
+
+This project is licensed under the MIT License with the [Commons Clause](https://commonsclause.com/).
+
+The Commons Clause restricts this software from being used in commercial products or services. For more details, see the `LICENSE` file.
