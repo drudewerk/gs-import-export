@@ -3,8 +3,8 @@
         "id": 1,
         "name": "some name",
         "address": {
-            "country": "RU",
-            "city": "Moscow"
+            "country": "UK",
+            "city": "London"
         },
         "telephones": [
             {

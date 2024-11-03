@@ -2,8 +2,8 @@
     "id": 1,
     "name": "some name",
     "address": {
-        "country": "RU",
-        "city": "Moscow"
+        "country": "DE",
+        "city": "Munich"
     },
     "telephones": [
         {
