@@ -1,6 +1,7 @@
 import { FC, useState } from "react";
-import styled from "styled-components";
-import { ChevronUpIcon, ChevronDownIcon } from "@radix-ui/react-icons";
+import { ChevronDownIcon, ChevronUpIcon } from "@radix-ui/react-icons";
+import { styled } from "styled-components";
+
 import { Checkbox } from "../../framework/Checkbox/Checkbox";
 import { RadioGroup } from "../../framework/RadioGroup/RadioGroup";
 import { useOptions } from "./useOptions";

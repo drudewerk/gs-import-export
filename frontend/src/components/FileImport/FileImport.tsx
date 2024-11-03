@@ -1,10 +1,11 @@
 import { FC } from "react";
-import styled from "styled-components";
-import { Button } from "../../framework/Button/Button";
-import { useFileImport } from "./useFileImport";
-import { FileTile } from "./FileTile";
 import { useAtomValue } from "jotai";
+import { styled } from "styled-components";
+
+import { Button } from "../../framework/Button/Button";
 import { mergeFilesOptionAtom, sheetOptionAtom, startAtOptionAtom } from "../../state/options";
+import { FileTile } from "./FileTile";
+import { useFileImport } from "./useFileImport";
 
 
 type FileImportProps = {
@@ -30,12 +31,17 @@ export const FileImport: FC<FileImportProps> = ({ files, onRemove }) => {
         {
             files?.length
                 ? <Files>
-                    {files?.map(file => (<FileTile
-                        file={file}
-                        onRemove={onRemove}
-                        importing={importing}
-                        imported={imported}
-                    />))}
+                    {
+                        files?.map(file => (
+                            <FileTile
+                                key={file.name}
+                                file={file}
+                                onRemove={onRemove}
+                                importing={importing}
+                                imported={imported}
+                            />
+                        ))
+                    }
                 </Files>
                 : null
         }

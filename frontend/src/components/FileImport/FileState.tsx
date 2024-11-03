@@ -1,6 +1,7 @@
-import { Cross2Icon, CheckCircledIcon } from "@radix-ui/react-icons";
 import { FC } from "react";
-import styled from "styled-components";
+import { CheckCircledIcon, Cross2Icon } from "@radix-ui/react-icons";
+import { styled } from "styled-components";
+
 import { Loader } from "../../framework/Loader/Loader";
 
 

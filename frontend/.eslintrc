@@ -1,0 +1,156 @@
+{
+    "env": {
+        "browser": true,
+        "es2020": true
+    },
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 11,
+        "sourceType": "module"
+    },
+    "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:import/warnings",
+        "plugin:react/recommended",
+        "plugin:react-hooks/recommended",
+        "plugin:storybook/recommended"
+    ],
+    "plugins": [
+        "@typescript-eslint",
+        "simple-import-sort",
+        "unused-imports",
+        "@stylistic/ts",
+        "react",
+        "react-hooks"
+    ],
+    "rules": {
+        "quotes": [
+            "warn",
+            "double",
+            {
+                "avoidEscape": true
+            }
+        ],
+        "curly": [
+            "warn",
+            "all"
+        ],
+        "no-prototype-builtins": "off",
+        "@typescript-eslint/interface-name-prefix": "off",
+        "@typescript-eslint/no-namespace": "off",
+        "@typescript-eslint/explicit-function-return-type": "off",
+        "@typescript-eslint/explicit-module-boundary-types": "off",
+        "@typescript-eslint/no-inferrable-types": "off",
+        "@typescript-eslint/no-var-requires": "off",
+        "@typescript-eslint/no-unused-vars": "off",
+        "simple-import-sort/imports": "error",
+        "simple-import-sort/exports": "error",
+        "import/newline-after-import": [
+            "error",
+            {
+                "count": 2,
+                "considerComments": true
+            }
+        ],
+        "unused-imports/no-unused-imports": "error",
+        "unused-imports/no-unused-vars": [
+            "warn",
+            {
+                "vars": "all",
+                "varsIgnorePattern": "^_",
+                "args": "after-used",
+                "argsIgnorePattern": "^_"
+            }
+        ],
+        "@stylistic/ts/member-delimiter-style": [
+            "warn",
+            {
+                "multiline": {
+                    "delimiter": "semi",
+                    "requireLast": true
+                },
+                "singleline": {
+                    "delimiter": "semi",
+                    "requireLast": true
+                },
+                "multilineDetection": "brackets"
+            }
+        ],
+        "@stylistic/ts/brace-style": [
+            "warn",
+            "1tbs",
+            {
+                "allowSingleLine": false
+            }
+        ],
+        "react-hooks/rules-of-hooks": "error",
+        "react/prop-types": "off",
+        "react/display-name": "off",
+        "react/jsx-max-props-per-line": [
+            "warn",
+            {
+                "maximum": {
+                    "single": 3,
+                    "multi": 1
+                }
+            }
+        ],
+        "react/jsx-first-prop-new-line": [
+            "warn",
+            "multiline-multiprop"
+        ],
+        "react/jsx-closing-bracket-location": [
+            "warn",
+            "line-aligned"
+        ],
+        "react/jsx-indent-props": "warn",
+        "react/jsx-uses-react": "off",
+        "react/react-in-jsx-scope": "off"
+    },
+    "overrides": [
+        {
+            "files": [
+                "*.js",
+                "*.jsx",
+                "*.ts",
+                "*.tsx"
+            ],
+            "rules": {
+                "simple-import-sort/imports": [
+                    "error",
+                    {
+                        "groups": [
+                            // Packages `react` related packages come first.
+                            [
+                                "^react",
+                                "^@?\\w"
+                            ],
+                            // Other relative imports. Put same-folder imports and `.` last.
+                            [
+                                "^\\./(?=.*/)(?!/?$)",
+                                "^\\.(?!/?$)",
+                                "^\\./?$"
+                            ],
+                            // Style imports and side effect imports.
+                            [
+                                "^.+\\.?(scss)$",
+                                "^.+\\.?(less)$",
+                                "^.+\\.?(css)$",
+                                "^\\u0000"
+                            ]
+                        ]
+                    }
+                ]
+            }
+        }
+    ],
+    "settings": {
+        "react": {
+            "version": "detect"
+        }
+    }
+}

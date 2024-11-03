@@ -1,6 +1,7 @@
-import * as RadioGroupRadix from "@radix-ui/react-radio-group";
-import styled from "styled-components";
 import React, { useCallback, useLayoutEffect, useState } from "react";
+import * as RadioGroupRadix from "@radix-ui/react-radio-group";
+import { styled } from "styled-components";
+
 import { RadioGroupProps, RadioOptionProps } from "./types";
 
 

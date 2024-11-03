@@ -1,6 +1,7 @@
 import { FC, useMemo } from "react";
+import { styled } from "styled-components";
+
 import jsonSrc from "../../assets/json.png";
-import styled from "styled-components";
 import { FileState } from "./FileState";
 
 

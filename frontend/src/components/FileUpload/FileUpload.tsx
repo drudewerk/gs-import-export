@@ -1,11 +1,12 @@
 import { FC, useCallback } from "react";
-import styled, { css } from "styled-components";
-import { Button } from "../../framework/Button/Button";
 import { useDropzone } from "react-dropzone";
-import { ButtonType } from "../../framework/Button/types";
-import uploadBackgroundSrc from "../../assets/upload_background.png";
-import { importedAtom, importingAtom } from "../../state/app";
 import { useAtom, useAtomValue } from "jotai";
+import { css, styled } from "styled-components";
+
+import uploadBackgroundSrc from "../../assets/upload_background.png";
+import { Button } from "../../framework/Button/Button";
+import { ButtonType } from "../../framework/Button/types";
+import { importedAtom, importingAtom } from "../../state/app";
 
 
 type FileUploadProps = {

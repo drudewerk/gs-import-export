@@ -1,5 +1,7 @@
 import { useAtom } from "jotai";
+
 import { errorAtom } from "../../state/app";
+
 
 export const useErrorOverlay = () => {
     const [error, setError] = useAtom(errorAtom);

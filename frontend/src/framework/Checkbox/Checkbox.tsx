@@ -1,8 +1,9 @@
-import * as CheckboxRadix from "@radix-ui/react-checkbox";
-import styled, { css } from "styled-components";
-import { CheckboxProps } from "./type";
-import { CheckIcon } from "@radix-ui/react-icons";
 import { useCallback, useLayoutEffect, useState } from "react";
+import * as CheckboxRadix from "@radix-ui/react-checkbox";
+import { CheckIcon } from "@radix-ui/react-icons";
+import { css, styled } from "styled-components";
+
+import { CheckboxProps } from "./type";
 
 
 export const Checkbox: React.FC<CheckboxProps> = ({ label, checked, disabled, onChange }) => {

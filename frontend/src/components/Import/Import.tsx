@@ -1,7 +1,8 @@
 import { FC, useState } from "react";
-import { FileUpload } from "../FileUpload/FileUpload";
+import { styled } from "styled-components";
+
 import { FileImport } from "../FileImport/FileImport";
-import styled from "styled-components";
+import { FileUpload } from "../FileUpload/FileUpload";
 import { Options } from "../Options/Options";
 
 

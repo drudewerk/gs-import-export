@@ -1,7 +1,8 @@
-import { createPortal } from "react-dom";
-import { ToastProps, ToastType } from "./types";
-import styled from "styled-components";
 import { FC } from "react";
+import { createPortal } from "react-dom";
+import { styled } from "styled-components";
+
+import { ToastProps, ToastType } from "./types";
 
 
 export const Toast: FC<ToastProps> = ({

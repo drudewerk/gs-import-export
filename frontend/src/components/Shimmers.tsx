@@ -2,7 +2,8 @@ import {
     ShimmerButton,
     ShimmerTitle
 } from "react-shimmer-effects";
-import styled from "styled-components";
+import { styled } from "styled-components";
+
 
 export const Shimmers = () => {
     return (

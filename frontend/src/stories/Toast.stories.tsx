@@ -1,8 +1,8 @@
+import { Fragment } from "react/jsx-runtime";
 import type { Meta, StoryObj } from "@storybook/react";
 
 import { Toast } from "../framework/Toast/Toast";
 import { ToastType } from "../framework/Toast/types";
-import { Fragment } from "react/jsx-runtime";
 
 
 const meta = {

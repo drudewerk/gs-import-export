@@ -1,4 +1,4 @@
-import styled, { keyframes } from "styled-components";
+import { keyframes, styled } from "styled-components";
 
 
 const ANIMATION_DURATION = "800ms";

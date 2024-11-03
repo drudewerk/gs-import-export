@@ -1,8 +1,9 @@
-import { RadioGroup } from "../../framework/RadioGroup/RadioGroup";
-import { Button } from "../../framework/Button/Button";
 import { FC, useCallback, useState } from "react";
-import styled from "styled-components";
+import { styled } from "styled-components";
+
+import { Button } from "../../framework/Button/Button";
 import { Loader } from "../../framework/Loader/Loader";
+import { RadioGroup } from "../../framework/RadioGroup/RadioGroup";
 import { useErrorOverlay } from "../ErrorOverlay/useErrorOverlay";
 
 

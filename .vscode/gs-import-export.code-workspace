@@ -1,0 +1,66 @@
+{
+    "folders": [
+        {
+            "name": "🏠 root",
+            "path": "../"
+        },
+        {
+            "name": "📱 frontend",
+            "path": "../frontend"
+        },
+        {
+            "name": "🖥️ backend",
+            "path": "../backend"
+        }
+    ],
+    "settings": {
+        "typescript.format.enable": true,
+        "javascript.format.enable": true,
+        "less.format.enable": true,
+        "css.format.enable": true,
+        "javascript.format.semicolons": "insert",
+        "typescript.format.semicolons": "insert",
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": null,
+        "files.insertFinalNewline": true,
+        "editor.tabSize": 4,
+        "cSpell.words": [],
+        "eslint.validate": [
+            "javascript",
+            "javascriptreact",
+            "typescript",
+            "typescriptreact"
+        ],
+        "editor.codeActionsOnSave": {
+            "source.fixAll.eslint": "explicit"
+        },
+        "javascript.preferences.quoteStyle": "double",
+        "typescript.preferences.quoteStyle": "double",
+        "[jsonc]": {
+            "editor.defaultFormatter": "vscode.json-language-features"
+        },
+        "[json]": {
+            "editor.defaultFormatter": "vscode.json-language-features"
+        },
+        "[typescript]": {
+            "editor.defaultFormatter": "vscode.typescript-language-features"
+        },
+        "[typescriptreact]": {
+            "editor.defaultFormatter": "vscode.typescript-language-features"
+        },
+        "[yaml]": {
+            "editor.insertSpaces": true,
+            "editor.tabSize": 2,
+            "editor.autoIndent": "none"
+        },
+        "editor.detectIndentation": false,
+    },
+    "extensions": {
+        "recommendations": [
+            "dbaeumer.vscode-eslint",
+            "styled-components.vscode-styled-components",
+            "streetsidesoftware.code-spell-checker"
+        ],
+        "unwantedRecommendations": []
+    }
+}
