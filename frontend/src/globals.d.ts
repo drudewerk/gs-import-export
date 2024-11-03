@@ -38,3 +38,5 @@ interface Google {
 }
 
 declare var google: Google;
+
+declare module "react-shimmer-effects";
