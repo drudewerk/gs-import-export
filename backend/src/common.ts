@@ -4,27 +4,27 @@
 function onOpen() {
     SpreadsheetApp.getUi()
         .createAddonMenu()
-        .addItem('Import JSON files', 'showImportSidebar')
-        .addItem('Export as JSON file', 'showExportSidebar')
+        .addItem("Import JSON files", "showImportSidebar")
+        .addItem("Export as JSON file", "showExportSidebar")
         .addToUi();
 }
 
-const CSTATE = 'state';
+const CSTATE = "state";
 /**
  * Shows the sidebar with the React app.
  */
 function showImportSidebar() {
-    showSidebar("import", 'Import JSON files');
+    showSidebar("import", "Import JSON files");
 }
 
 function showExportSidebar() {
-    showSidebar("export", 'Export as JSON file');
+    showSidebar("export", "Export as JSON file");
 }
 
-function showSidebar(state: 'import' | 'export', title: string) {
+function showSidebar(state: "import" | "export", title: string) {
     const props = PropertiesService.getScriptProperties();
     props.setProperty(CSTATE, state);
-    const html = HtmlService.createHtmlOutputFromFile('index')
+    const html = HtmlService.createHtmlOutputFromFile("index")
         .setTitle(title);
     SpreadsheetApp.getUi().showSidebar(html);
 }

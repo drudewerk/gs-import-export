@@ -90,12 +90,12 @@ function processJsonObject(jsonObject: any, options: UploadOptions) {
     const rows: any[] = [];
     const keys: Set<string> = new Set();
 
-    const flattenObject = (obj: any, parentKey: string = ''): any => {
+    const flattenObject = (obj: any, parentKey: string = ""): any => {
         const flatObj: any = {};
         for (const key in obj) {
             if (obj.hasOwnProperty(key)) {
                 const newKey = parentKey ? `${parentKey}.${key}` : key;
-                if (typeof obj[key] === 'object' && obj[key] !== null) {
+                if (typeof obj[key] === "object" && obj[key] !== null) {
                     Object.assign(flatObj, flattenObject(obj[key], newKey));
                 } else {
                     flatObj[newKey] = obj[key];

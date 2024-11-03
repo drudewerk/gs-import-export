@@ -8,7 +8,7 @@ function sheetDataToArray(currentSelectionOnly: boolean) {
     const obj = arrayToJson(values, startingColumnNumber);
 
     const json = JSON.stringify(obj, null, 2);
-    const blob = Utilities.newBlob(json, 'application/json', 'data.json');
+    const blob = Utilities.newBlob(json, "application/json", "data.json");
 
     return {
         fileName: getSpreadsheetName(),
@@ -28,7 +28,7 @@ function arrayToJson(array: any[][], startingColumnNumber: number): any[] | null
         const obj: any = {};
         let rowHasData = false;
         for (let i = 0; i < keys.length; i++) {
-            const keyParts = keys[i].split('.');
+            const keyParts = keys[i].split(".");
             let currentObj = obj;
             for (let j = 0; j < keyParts.length; j++) {
                 let part = keyParts[j];
@@ -49,7 +49,7 @@ function arrayToJson(array: any[][], startingColumnNumber: number): any[] | null
                     currentObj[part] = valueRow[i];
                     rowHasData = rowHasData || (valueRow[i] !== "");
                 } else {
-                    if (!currentObj[part] || typeof currentObj[part] !== 'object') {
+                    if (!currentObj[part] || typeof currentObj[part] !== "object") {
                         if (isArray) {
                             currentObj[part] = [];
                         } else {
@@ -74,7 +74,7 @@ function getSpreadsheetName() {
 }
 
 function columnToLetter(column) {
-    var temp, letter = '';
+    var temp, letter = "";
     while (column > 0) {
         temp = (column - 1) % 26;
         letter = String.fromCharCode(temp + 65) + letter;

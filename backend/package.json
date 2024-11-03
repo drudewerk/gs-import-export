@@ -1,17 +1,22 @@
 {
-  "name": "drudejson",
-  "version": "1.0.0",
-  "main": "index.js",
-  "scripts": {
-    "build": "tsc"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
-  "devDependencies": {
-    "@google/clasp": "2.4.2",
-    "@types/google-apps-script": "1.0.84",
-    "typescript": "5.6.3"
-  }
+    "name": "drudejson",
+    "version": "1.0.0",
+    "main": "index.js",
+    "type": "module",
+    "scripts": {
+        "build": "tsc",
+        "lint": "eslint ."
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "description": "",
+    "devDependencies": {
+        "@google/clasp": "2.4.2",
+        "@types/google-apps-script": "1.0.84",
+        "@typescript-eslint/eslint-plugin": "8.12.2",
+        "@typescript-eslint/parser": "8.12.2",
+        "eslint": "9.14.0",
+        "typescript": "5.6.3"
+    }
 }
