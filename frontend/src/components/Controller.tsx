@@ -5,21 +5,27 @@ import { Shimmers } from "./Shimmers";
 
 
 export const Controller: FC = () => {
-    const [state, setState] = useState<"none" | "import" | "export">("none");
+    const [state, setState] = useState<"none" | "import" | "export" | "error">("none");
 
     useEffect(() => {
-        google.script.run.withSuccessHandler((state: "none" | "import" | "export") => {
-            setState(state);
-        }).getCurrentState();
+        google.script.run
+            .withSuccessHandler((state: "none" | "import" | "export") => {
+                setState(state);
+            })
+            .withFailureHandler(() => {
+                setState("error");
+            })
+            .getCurrentState();
     }, []);
 
-    if (state == "import") {
-        return <Import />;
-
+    switch (state) {
+        case "import":
+            return <Import />;
+        case "export":
+            return <Export />;
+        case "error":
+            return <p>Error. Please try again</p>;
+        default:
+            return <Shimmers />;
     }
-    if (state == "export") {
-        return <Export />;
-    }
-
-    return <Shimmers />;
 };
