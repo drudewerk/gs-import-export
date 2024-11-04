@@ -11,7 +11,7 @@ const HEADER_HEIGHT = "32px";
 const CONTENT_HEIGHT = "250px";
 
 export const Options: FC = () => {
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(true);
     const {
         sheet,
         setSheet,

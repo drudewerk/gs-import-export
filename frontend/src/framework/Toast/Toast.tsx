@@ -1,5 +1,6 @@
 import { FC } from "react";
 import { createPortal } from "react-dom";
+import { Cross2Icon } from "@radix-ui/react-icons";
 import { styled } from "styled-components";
 
 import { ToastProps, ToastType } from "./types";
@@ -8,7 +9,8 @@ import { ToastProps, ToastType } from "./types";
 export const Toast: FC<ToastProps> = ({
     type,
     title,
-    content
+    content,
+    onClose
 }) => {
     const toastType = type ?? ToastType.Info;
     const target = document.querySelector("#root");
@@ -19,6 +21,7 @@ export const Toast: FC<ToastProps> = ({
 
     return createPortal(
         <Container type={toastType}>
+            {onClose && <Close onClick={onClose}><Cross2Icon /></Close>}
             <Title type={toastType}>{title}</Title>
             <span>{content}</span>
         </Container>,
@@ -38,7 +41,7 @@ const Container = styled.div<{ type: ToastType; }>`
     box-shadow: 0 4px 8px 3px rgba(60,64,67,.15);
     border-radius: 4px;
     font-size: 13px;
-    overflow: scroll;
+    overflow: auto;
     overflow-wrap: break-word;
     z-index: 100000;
 `;
@@ -50,6 +53,15 @@ const Title = styled.div<{ type: ToastType; }>`
     line-height: 20px;
     margin-bottom: 8px;
     color: ${p => getColorPerType(p.type)};
+`;
+
+const Close = styled.div`
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    cursor: pointer;
 `;
 
 const getColorPerType = (type: ToastType) => {

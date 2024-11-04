@@ -12,5 +12,5 @@ export type ToastProps = {
     title: string;
     content: ReactNode | string;
     type?: ToastType;
-    targetSelector?: string;
+    onClose?: () => void;
 };

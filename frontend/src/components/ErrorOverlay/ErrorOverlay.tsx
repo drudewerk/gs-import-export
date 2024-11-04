@@ -7,7 +7,8 @@ import { useErrorOverlay } from "./useErrorOverlay";
 
 export const ErrorOverlay: FC = () => {
     const {
-        error
+        error,
+        resetError
     } = useErrorOverlay();
 
     if (!error) {
@@ -18,5 +19,6 @@ export const ErrorOverlay: FC = () => {
         type={ToastType.Error}
         title={error.error}
         content={error.errorDescription}
+        onClose={() => resetError()}
     />;
 };
