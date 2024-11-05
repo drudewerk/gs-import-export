@@ -1,10 +1,11 @@
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useAtom } from "jotai";
 
 import { mergeFilesOptionAtom, sheetOptionAtom, startAtOptionAtom } from "../../state/options";
 
 
 export const useOptions = () => {
+    const [loading, setLoading] = useState(true);
     const [sheet, setSheet] = useAtom(sheetOptionAtom);
     const [startAt, setStartAt] = useAtom(startAtOptionAtom);
     const [mergeFiles, setMergeFiles] = useAtom(mergeFilesOptionAtom);
@@ -15,9 +16,11 @@ export const useOptions = () => {
                 setSheet(value.sheet);
                 setStartAt(value.startAt);
                 setMergeFiles(value.mergeFiles);
+                setLoading(false);
             })
             .withFailureHandler((error) => {
                 console.error(error);
+                setLoading(false);
             })
             .getOptions();
     }, [setMergeFiles, setSheet, setStartAt]);
@@ -58,6 +61,7 @@ export const useOptions = () => {
     }, [saveOptions, setMergeFiles, sheet, startAt]);
 
     return {
+        loading,
         sheet,
         setSheet: saveSheet,
         startAt,

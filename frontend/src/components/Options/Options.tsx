@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { ChevronDownIcon, ChevronUpIcon } from "@radix-ui/react-icons";
 import { styled } from "styled-components";
 
@@ -11,8 +11,10 @@ const HEADER_HEIGHT = "32px";
 const CONTENT_HEIGHT = "250px";
 
 export const Options: FC = () => {
-    const [isOpen, setIsOpen] = useState(true);
+    const [isOpen, setIsOpen] = useState(false);
+    const wasOpened = useRef(false);
     const {
+        loading,
         sheet,
         setSheet,
         startAt,
@@ -21,7 +23,15 @@ export const Options: FC = () => {
         setMergeFiles
     } = useOptions();
 
+    useEffect(() => {
+        if (!loading && !wasOpened.current) {
+            wasOpened.current = true;
+            setIsOpen(true);
+        }
+    }, [loading]);
+
     const togglePanel = () => {
+        wasOpened.current = true;
         setIsOpen((prev) => !prev);
     };
 
