@@ -23,10 +23,8 @@ export const Import: FC = () => {
     };
 
     return <Container>
-        <UpperPart>
-            <FileUpload onUploaded={onFileUploaded} />
-            <FileImport files={files} onRemove={onFileRemove} />
-        </UpperPart>
+        <FileUpload onUploaded={onFileUploaded} />
+        <FileImport files={files} onRemove={onFileRemove} />
         <Options />
     </Container>;
 };
@@ -37,18 +35,6 @@ const Container = styled.div`
     height: 100%;
     display: flex;
     flex-flow: column nowrap;
-    justify-content: space-between;
-    align-items: center;
-    overflow: hidden;
-`;
-
-const UpperPart = styled.div`
-    display: flex;
-    width: 100%;
-    flex-flow: column nowrap;
     justify-content: flex-start;
     align-items: center;
-    flex: 1;
-    overflow: hidden;
-    gap: 8px;
 `;

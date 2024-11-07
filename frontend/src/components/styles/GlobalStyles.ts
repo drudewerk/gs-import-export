@@ -29,7 +29,6 @@ export const GlobalStyles = createGlobalStyle`
         flex-flow: row nowrap;
         justify-content: center;
         align-items: flex-start;
-        overflow: hidden;
     }
 
     #root {

@@ -83,7 +83,7 @@ const FileTypeImg = styled.img`
 `;
 
 const FileName = styled.span`
-    max-width: 130px;
+    max-width: 116px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;

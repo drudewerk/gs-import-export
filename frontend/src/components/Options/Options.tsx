@@ -66,8 +66,8 @@ export const Options: FC = () => {
 
 
 const OptionsContainer = styled.div`
-    transition: max-height 0.2s ease-in-out;
-    background-color: #ffffff;
+    padding-top: 8px;
+    border-top: 1px solid #dadce0;
     flex-shrink: 0;
     width: 100%;
 `;
@@ -78,18 +78,13 @@ const Header = styled.div`
     align-items: center;
     justify-content: space-between;
     padding: 0 16px;
-    background-color: #f0f4f9;
-    border-top-right-radius: 8px;
-    border-top-left-radius: 8px;
     font-size: 14px;
     font-weight: 500;
-    cursor: pointer;
 `;
 
 const Content = styled.div`
     width: 100%;
     padding: 16px;
-    overflow-y: auto;
     display: flex;
     flex-flow: column;
     justify-content: flex-start;
