@@ -32,5 +32,9 @@ function showSidebar(state: "import" | "export", title: string) {
 
 function getCurrentState() {
     const props = PropertiesService.getScriptProperties();
-    return props.getProperty(CSTATE);
+    let options = getOptions();
+    return {
+        state: props.getProperty(CSTATE),
+        options: options
+    }
 }

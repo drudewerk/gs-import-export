@@ -6,20 +6,22 @@ import { Shimmers } from "./Shimmers";
 
 
 export const Controller: FC = () => {
-    const [state, setState] = useState<"none" | "import" | "export" | "error">("none");
+    const [state, setState] = useState<CurrentState | null>(null);
 
     useEffect(() => {
         google.script.run
-            .withSuccessHandler((state: "none" | "import" | "export") => {
+            .withSuccessHandler((state: CurrentState) => {
                 setState(state);
             })
             .withFailureHandler(() => {
-                setState("error");
+                setState({
+                    state: "error"
+                });
             })
             .getCurrentState();
     }, []);
 
-    switch (state) {
+    switch (state?.state) {
         case "import":
             return <Import />;
         case "export":

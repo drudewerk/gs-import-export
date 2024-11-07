@@ -5,25 +5,9 @@ import { mergeFilesOptionAtom, sheetOptionAtom, startAtOptionAtom } from "../../
 
 
 export const useOptions = () => {
-    const [loading, setLoading] = useState(true);
     const [sheet, setSheet] = useAtom(sheetOptionAtom);
     const [startAt, setStartAt] = useAtom(startAtOptionAtom);
     const [mergeFiles, setMergeFiles] = useAtom(mergeFilesOptionAtom);
-
-    useEffect(() => {
-        google.script.run
-            .withSuccessHandler((value: UploadOptions) => {
-                setSheet(value.sheet);
-                setStartAt(value.startAt);
-                setMergeFiles(value.mergeFiles);
-                setLoading(false);
-            })
-            .withFailureHandler((error) => {
-                console.error(error);
-                setLoading(false);
-            })
-            .getOptions();
-    }, [setMergeFiles, setSheet, setStartAt]);
 
     const saveOptions = useCallback((options: UploadOptions) => {
         google.script.run
@@ -61,7 +45,6 @@ export const useOptions = () => {
     }, [saveOptions, setMergeFiles, sheet, startAt]);
 
     return {
-        loading,
         sheet,
         setSheet: saveSheet,
         startAt,
