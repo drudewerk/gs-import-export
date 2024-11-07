@@ -63,7 +63,6 @@ const Container = styled.div`
     gap: 16px;
     border-top: 1px solid #dadce0;
     padding: 16px;
-    overflow: hidden;
 `;
 
 const Files = styled.div`
@@ -73,8 +72,6 @@ const Files = styled.div`
     justify-content: flex-start;
     align-items: flex-start;
     gap: 8px;
-    overflow-y: auto;
-    flex: 1;
 `;
 
 const ImportButton = styled(Button)`

@@ -2,13 +2,20 @@ import { FC, useEffect, useState } from "react";
 
 import { Export } from "./Export/Export";
 import { Import } from "./Import/Import";
+import { useOptions } from "./Options/useOptions";
 import { Shimmers } from "./Shimmers";
 
 
 export const Controller: FC = () => {
     const [state, setState] = useState<"none" | "import" | "export" | "error">("none");
+    const {
+        loading,
+        load
+    } = useOptions();
 
     useEffect(() => {
+        load();
+
         google.script.run
             .withSuccessHandler((state: "none" | "import" | "export") => {
                 setState(state);
@@ -17,7 +24,17 @@ export const Controller: FC = () => {
                 setState("error");
             })
             .getCurrentState();
-    }, []);
+    }, [load]);
+
+    useEffect(() => {
+        console.log({
+            state, loading
+        });
+    }, [loading, state]);
+
+    if (loading || state === "none") {
+        return <Shimmers />;
+    }
 
     switch (state) {
         case "import":

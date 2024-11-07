@@ -1,5 +1,4 @@
-import { FC, useEffect, useRef, useState } from "react";
-import { ChevronDownIcon, ChevronUpIcon } from "@radix-ui/react-icons";
+import { FC } from "react";
 import { styled } from "styled-components";
 
 import { Checkbox } from "../../framework/Checkbox/Checkbox";
@@ -7,14 +6,8 @@ import { RadioGroup } from "../../framework/RadioGroup/RadioGroup";
 import { useOptions } from "./useOptions";
 
 
-const HEADER_HEIGHT = "32px";
-const CONTENT_HEIGHT = "250px";
-
 export const Options: FC = () => {
-    const [isOpen, setIsOpen] = useState(false);
-    const wasOpened = useRef(false);
     const {
-        loading,
         sheet,
         setSheet,
         startAt,
@@ -23,23 +16,10 @@ export const Options: FC = () => {
         setMergeFiles
     } = useOptions();
 
-    useEffect(() => {
-        if (!loading && !wasOpened.current) {
-            wasOpened.current = true;
-            setIsOpen(true);
-        }
-    }, [loading]);
-
-    const togglePanel = () => {
-        wasOpened.current = true;
-        setIsOpen((prev) => !prev);
-    };
-
     return (
-        <OptionsContainer $isOpen={isOpen}>
-            <Header onClick={togglePanel}>
+        <OptionsContainer>
+            <Header>
                 <span>Options</span>
-                {isOpen ? <ChevronDownIcon /> : <ChevronUpIcon />}
             </Header>
             <Content>
                 <Checkbox
@@ -85,10 +65,9 @@ export const Options: FC = () => {
 };
 
 
-const OptionsContainer = styled.div<{ $isOpen: boolean; }>`
-    max-height: ${({ $isOpen }) => ($isOpen ? `calc(${HEADER_HEIGHT} + ${CONTENT_HEIGHT})` : HEADER_HEIGHT)};
-    transition: max-height 0.2s ease-in-out;
-    background-color: #ffffff;
+const OptionsContainer = styled.div`
+    padding-top: 8px;
+    border-top: 1px solid #dadce0;
     flex-shrink: 0;
     width: 100%;
 `;
@@ -99,19 +78,13 @@ const Header = styled.div`
     align-items: center;
     justify-content: space-between;
     padding: 0 16px;
-    background-color: #f0f4f9;
-    border-top-right-radius: 8px;
-    border-top-left-radius: 8px;
     font-size: 14px;
     font-weight: 500;
-    cursor: pointer;
 `;
 
 const Content = styled.div`
     width: 100%;
     padding: 16px;
-    max-height: ${CONTENT_HEIGHT};
-    overflow-y: auto;
     display: flex;
     flex-flow: column;
     justify-content: flex-start;

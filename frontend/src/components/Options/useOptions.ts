@@ -1,16 +1,16 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback } from "react";
 import { useAtom } from "jotai";
 
-import { mergeFilesOptionAtom, sheetOptionAtom, startAtOptionAtom } from "../../state/options";
+import { loadingOptionsAtom, mergeFilesOptionAtom, sheetOptionAtom, startAtOptionAtom } from "../../state/options";
 
 
 export const useOptions = () => {
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useAtom(loadingOptionsAtom);
     const [sheet, setSheet] = useAtom(sheetOptionAtom);
     const [startAt, setStartAt] = useAtom(startAtOptionAtom);
     const [mergeFiles, setMergeFiles] = useAtom(mergeFilesOptionAtom);
 
-    useEffect(() => {
+    const load = useCallback(() => {
         google.script.run
             .withSuccessHandler((value: UploadOptions) => {
                 setSheet(value.sheet);
@@ -23,7 +23,7 @@ export const useOptions = () => {
                 setLoading(false);
             })
             .getOptions();
-    }, [setMergeFiles, setSheet, setStartAt]);
+    }, [setLoading, setMergeFiles, setSheet, setStartAt]);
 
     const saveOptions = useCallback((options: UploadOptions) => {
         google.script.run
@@ -62,6 +62,7 @@ export const useOptions = () => {
 
     return {
         loading,
+        load,
         sheet,
         setSheet: saveSheet,
         startAt,
