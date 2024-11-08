@@ -20,13 +20,18 @@ type UploadData = {
     options: UploadOptions;
 };
 
+type CurrentState = {
+    state: "none" | "import" | "export" | "error",
+    options?: UploadOptions
+}
+
 interface GoogleScriptRun {
     withSuccessHandler: <T>(callback: (result: T) => void) => GoogleScriptRun;
     withFailureHandler: (callback: (error: any) => void) => GoogleScriptRun;
     importJsonFile: (uploadData: UploadData) => void;
     saveOptions: (options: UploadOptions) => void;
     getOptions: () => UploadOptions;
-    getCurrentState: () => string;
+    getCurrentState: () => CurrentState;
     sheetDataToArray: (selectionOnly: boolean) => void;
 }
 
