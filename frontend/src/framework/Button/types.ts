@@ -6,8 +6,14 @@ export enum ButtonType {
     secondary = "secondary"
 }
 
+export enum ButtonSize {
+    medium = "medium",
+    small = "small"
+}
+
 export type ButtonProps = PropsWithChildren<{
     type?: ButtonType;
+    size?: ButtonSize;
     disabled?: boolean;
     onClick?: MouseEventHandler<HTMLButtonElement>;
     className?: string;

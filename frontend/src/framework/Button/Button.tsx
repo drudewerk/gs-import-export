@@ -1,11 +1,12 @@
 import { FC } from "react";
 import { css, styled } from "styled-components";
 
-import { ButtonProps, ButtonType } from "./types";
+import { ButtonProps, ButtonSize, ButtonType } from "./types";
 
 
 export const Button: FC<ButtonProps> = ({
     type,
+    size,
     onClick,
     disabled,
     className,
@@ -13,6 +14,7 @@ export const Button: FC<ButtonProps> = ({
 }) => {
     return <GsButton
         type={type ?? ButtonType.primary}
+        size={size ?? ButtonSize.medium}
         disabled={disabled}
         onClick={onClick}
         className={className}
@@ -21,22 +23,18 @@ export const Button: FC<ButtonProps> = ({
     </GsButton>;
 };
 
-const GsButton = styled.button<Pick<ButtonProps, "type" | "disabled">>`
+const GsButton = styled.button<Pick<ButtonProps, "type" | "disabled" | "size">>`
     cursor: pointer;
     outline: 0;
     box-shadow: none;
     box-sizing: border-box;
-    min-width: 72px;
     border-width: 1px;
     border-style: solid;
     border-radius: 4px;
     font-family: Open Sans, Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
     font-weight: 500;
-    font-size: 14px;
-    height: 36px;
     letter-spacing: .25px;
-    line-height: 16px;
-    padding: 9px 24px 11px;
+    white-space: nowrap;
 
     ${p => p.type === ButtonType.primary && css`
         background-color: #188038;
@@ -83,6 +81,22 @@ const GsButton = styled.button<Pick<ButtonProps, "type" | "disabled">>`
             border-color: #bbe2c6;
         }
     `}
+
+    ${p => p.size === ButtonSize.medium && css`
+        font-size: 14px;
+        height: 36px;
+        line-height: 16px;
+        padding: 9px 24px 11px;
+        min-width: 72px;
+    `} 
+
+    ${p => p.size === ButtonSize.small && css`
+        font-size: 12px;
+        height: 24px;
+        line-height: 12px;
+        padding: 5px 8px;
+        min-width: 50px;
+    `} 
 
     ${p => p.disabled && css`
         opacity: .62;
