@@ -1,8 +1,9 @@
-import { FC } from "react";
+import { FC, useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import { Cross2Icon } from "@radix-ui/react-icons";
 import { styled } from "styled-components";
 
+import { Button } from "../Button/Button";
 import { ToastProps, ToastType } from "./types";
 
 
@@ -10,22 +11,35 @@ export const Toast: FC<ToastProps> = ({
     type,
     title,
     content,
-    onClose
+    onClose,
+    buttonProps
 }) => {
     const toastType = type ?? ToastType.Info;
     const target = document.querySelector("#root");
+    const [domReady, setDomReady] = useState(false);
 
-    if (!target) {
-        return null;
-    }
+    useEffect(() => {
+        setDomReady(true);
+    }, []);
 
-    return createPortal(
+    const button = useMemo(() => {
+        if (!buttonProps) {
+            return null;
+        }
+
+        return <Button {...buttonProps} />;
+    }, [buttonProps]);
+
+    return domReady && createPortal(
         <Container type={toastType}>
             {onClose && <Close onClick={onClose}><Cross2Icon /></Close>}
-            <Title type={toastType}>{title}</Title>
-            <span>{content}</span>
+            <ContentContainer>
+                <Title type={toastType}>{title}</Title>
+                <span>{content}</span>
+            </ContentContainer>
+            {button}
         </Container>,
-        target
+        target!
     );
 };
 
@@ -40,10 +54,17 @@ const Container = styled.div<{ type: ToastType; }>`
     background-color: #ffffff;
     box-shadow: 0 4px 8px 3px rgba(60,64,67,.15);
     border-radius: 4px;
+    z-index: 100000;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: flex-end;
+`;
+
+const ContentContainer = styled.div`
     font-size: 13px;
     overflow: auto;
     overflow-wrap: break-word;
-    z-index: 100000;
 `;
 
 const Title = styled.div<{ type: ToastType; }>`
