@@ -1,5 +1,7 @@
 import { ReactNode } from "react";
 
+import { ButtonProps } from "../Button/types";
+
 
 export enum ToastType {
     Info,
@@ -13,4 +15,5 @@ export type ToastProps = {
     content: ReactNode | string;
     type?: ToastType;
     onClose?: () => void;
+    buttonProps?: ButtonProps;
 };

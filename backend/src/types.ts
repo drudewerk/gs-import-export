@@ -14,3 +14,6 @@ type UploadData = {
     files: UploadedFile[];
     options: UploadOptions;
 };
+
+type RateUsState = "shown" | "dismissed" | "rate_clicked" | "not_shown";
+

@@ -21,9 +21,11 @@ type UploadData = {
 };
 
 type CurrentState = {
-    state: "none" | "import" | "export" | "error",
-    options?: UploadOptions
-}
+    state: "none" | "import" | "export" | "error";
+    options?: UploadOptions;
+};
+
+type RateUsState = "shown" | "dismissed" | "rate_clicked" | "not_shown";
 
 interface GoogleScriptRun {
     withSuccessHandler: <T>(callback: (result: T) => void) => GoogleScriptRun;
@@ -33,6 +35,8 @@ interface GoogleScriptRun {
     getOptions: () => UploadOptions;
     getCurrentState: () => CurrentState;
     sheetDataToArray: (selectionOnly: boolean) => void;
+    getRateUsState: () => RateUsState;
+    setRateUsState: (state: RateUsState) => void;
 }
 
 interface Google {

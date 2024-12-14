@@ -36,5 +36,23 @@ function getCurrentState() {
     return {
         state: props.getProperty(CSTATE),
         options: options
+    };
+}
+
+function getRateUsState(): RateUsState {
+    const scriptProperties = PropertiesService.getScriptProperties();
+    const state = scriptProperties.getProperty("rate_us");
+
+    if (!state) {
+        return "not_shown";
     }
+
+    return state as RateUsState;
+}
+
+function setRateUsState(state: RateUsState) {
+    Logger.log(`Rate Us state: ${state}`);
+
+    const scriptProperties = PropertiesService.getScriptProperties();
+    scriptProperties.setProperty("rate_us", state);
 }

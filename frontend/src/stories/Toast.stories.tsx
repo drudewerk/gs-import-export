@@ -1,6 +1,7 @@
 import { Fragment } from "react/jsx-runtime";
 import type { Meta, StoryObj } from "@storybook/react";
 
+import { ButtonSize, ButtonType } from "../framework/Button/types";
 import { Toast } from "../framework/Toast/Toast";
 import { ToastType } from "../framework/Toast/types";
 
@@ -17,8 +18,9 @@ const meta = {
         (Story) => {
             return (
                 <Fragment>
-                    <div id={"root"} style={{ width: "300px", height: "100px" }} />
-                    <Story />
+                    <div id={"root"} style={{ width: "300px", height: "100px" }}>
+                        <Story />
+                    </div>
                 </Fragment>
             );
         },
@@ -30,8 +32,14 @@ type Story = StoryObj<typeof meta>;
 
 export const Error: Story = {
     args: {
-        type: ToastType.Error,
-        title: "Error",
-        content: "Toast with error information"
+        type: ToastType.Success,
+        title: "Was the Add-On Helpful?",
+        content: "Your feedback helps us improve.",
+        buttonProps: {
+            type: ButtonType.primary,
+            children: <span>Rate Us</span>,
+            size: ButtonSize.small,
+            onClick: () => alert("Rate Us")
+        }
     },
 };
