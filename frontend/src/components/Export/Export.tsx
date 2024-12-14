@@ -5,6 +5,7 @@ import { Button } from "../../framework/Button/Button";
 import { Loader } from "../../framework/Loader/Loader";
 import { RadioGroup } from "../../framework/RadioGroup/RadioGroup";
 import { useErrorOverlay } from "../ErrorOverlay/useErrorOverlay";
+import { useRateUs } from "../RateUs/useRateUs";
 
 
 export const Export: FC = () => {
@@ -14,6 +15,8 @@ export const Export: FC = () => {
         setError,
         resetError
     } = useErrorOverlay();
+
+    const { promptRateUs } = useRateUs();
 
     const handleDownload = useCallback(async () => {
         try {
@@ -36,6 +39,7 @@ export const Export: FC = () => {
                     link.download = response.fileName + "_" + currentTimestamp + ".json"; // Set the filename
                     link.click(); // Trigger the download
                     setExporting(false);
+                    promptRateUs();
                 })
                 .withFailureHandler((error) => {
                     setExporting(false);
@@ -56,7 +60,7 @@ export const Export: FC = () => {
             );
             console.error("Error downloading the file:", error);
         }
-    }, [exportFrom, resetError, setError]);
+    }, [exportFrom, promptRateUs, resetError, setError]);
 
     return <Container>
         <RadioGroup

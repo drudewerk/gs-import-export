@@ -3,6 +3,7 @@ import { useAtom } from "jotai";
 
 import { importedAtom, importingAtom } from "../../state/app";
 import { useErrorOverlay } from "../ErrorOverlay/useErrorOverlay";
+import { useRateUs } from "../RateUs/useRateUs";
 
 
 type FileImportOptions = {
@@ -33,6 +34,8 @@ export const useFileImport = ({
         resetError
     } = useErrorOverlay();
 
+    const { promptRateUs } = useRateUs();
+
     useLayoutEffect(() => {
         setImported(false);
         setImporting(false);
@@ -44,6 +47,7 @@ export const useFileImport = ({
             .withSuccessHandler(() => {
                 setImporting(false);
                 setImported(true);
+                promptRateUs();
             })
             .withFailureHandler((error) => {
                 setImported(false);
@@ -60,7 +64,7 @@ export const useFileImport = ({
                     ...(options ?? {})
                 }
             });
-    }, [resetError, options, setImporting, setImported, setError]);
+    }, [resetError, options, setImporting, setImported, promptRateUs, setError]);
 
     const uploadFile = useCallback(() => {
         if (!files) {
