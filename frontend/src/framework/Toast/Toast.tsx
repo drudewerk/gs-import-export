@@ -27,7 +27,7 @@ export const Toast: FC<ToastProps> = ({
             return null;
         }
 
-        return <Button {...buttonProps} />;
+        return <ToastButton {...buttonProps} />;
     }, [buttonProps]);
 
     return domReady && createPortal(
@@ -74,6 +74,10 @@ const Title = styled.div<{ type: ToastType; }>`
     line-height: 20px;
     margin-bottom: 8px;
     color: ${p => getColorPerType(p.type)};
+`;
+
+const ToastButton = styled(Button)`
+    flex-shrink: 0;
 `;
 
 const Close = styled.div`

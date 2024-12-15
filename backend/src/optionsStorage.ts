@@ -1,11 +1,11 @@
 function saveOptions(options: UploadOptions) {
-    const scriptProperties = PropertiesService.getScriptProperties();
-    scriptProperties.setProperty("options", JSON.stringify(options));
+    const props = PropertiesService.getUserProperties();
+    props.setProperty("options", JSON.stringify(options));
 }
 
 function getOptions(): UploadOptions {
-    const scriptProperties = PropertiesService.getScriptProperties();
-    const options = scriptProperties.getProperty("options");
+    const props = PropertiesService.getUserProperties();
+    const options = props.getProperty("options");
 
     if (!options) {
         return {
