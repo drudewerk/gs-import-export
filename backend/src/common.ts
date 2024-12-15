@@ -22,7 +22,7 @@ function showExportSidebar() {
 }
 
 function showSidebar(state: "import" | "export", title: string) {
-    const props = PropertiesService.getScriptProperties();
+    const props = PropertiesService.getUserProperties();
     props.setProperty(CSTATE, state);
     const html = HtmlService.createHtmlOutputFromFile("index")
         .setTitle(title);
@@ -31,7 +31,7 @@ function showSidebar(state: "import" | "export", title: string) {
 
 
 function getCurrentState() {
-    const props = PropertiesService.getScriptProperties();
+    const props = PropertiesService.getUserProperties();
     let options = getOptions();
     return {
         state: props.getProperty(CSTATE),
@@ -40,8 +40,8 @@ function getCurrentState() {
 }
 
 function getRateUsState(): RateUsState {
-    const scriptProperties = PropertiesService.getScriptProperties();
-    const state = scriptProperties.getProperty("rate_us");
+    const props = PropertiesService.getUserProperties();
+    const state = props.getProperty("rate_us");
 
     if (!state) {
         return "not_shown";
@@ -53,6 +53,6 @@ function getRateUsState(): RateUsState {
 function setRateUsState(state: RateUsState) {
     Logger.log(`Rate Us state: ${state}`);
 
-    const scriptProperties = PropertiesService.getScriptProperties();
-    scriptProperties.setProperty("rate_us", state);
+    const props = PropertiesService.getUserProperties();
+    props.setProperty("rate_us", state);
 }
