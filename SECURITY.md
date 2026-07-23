@@ -26,7 +26,8 @@ dependency graph, including development dependencies.
 CI runs `npm run audit:ci` against `audit-baseline.json`. It fails when an
 advisory or vulnerable package is new or increases in severity. Baseline changes
 require explicit review of every added finding and never replace the strict
-production-release audit.
+production-release audit. `AUDIT.md` records the reviewed findings and their
+acceptance rationale.
 
 Development-tool vulnerabilities matter even when the affected package is not
 shipped in the sidebar: contributors and CI execute build, lint, Storybook, and

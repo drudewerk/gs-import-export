@@ -76,7 +76,7 @@ export const Export: FC = () => {
                     label: "Current selection"
                 }
             ]}
-            defaultValue={exportFrom}
+            value={exportFrom}
             onChange={(value) => setExportFrom(value as "sheet" | "selection")}
         />
         <ButtonContainer>

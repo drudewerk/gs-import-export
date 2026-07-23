@@ -7,7 +7,7 @@ export type RadioOptionProps = {
 export type RadioGroupProps = {
     description: string;
     options: RadioOptionProps[];
-    defaultValue?: string;
+    value?: string;
     disabled?: boolean;
     onChange?: (value: string) => void;
 };

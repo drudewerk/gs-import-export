@@ -1,4 +1,4 @@
-import { FC, useEffect, useMemo, useState } from "react";
+import { FC } from "react";
 import { createPortal } from "react-dom";
 import { Cross2Icon } from "@radix-ui/react-icons";
 import { styled } from "styled-components";
@@ -16,30 +16,21 @@ export const Toast: FC<ToastProps> = ({
 }) => {
     const toastType = type ?? ToastType.Info;
     const target = document.querySelector("#root");
-    const [domReady, setDomReady] = useState(false);
 
-    useEffect(() => {
-        setDomReady(true);
-    }, []);
+    if (!target) {
+        return null;
+    }
 
-    const button = useMemo(() => {
-        if (!buttonProps) {
-            return null;
-        }
-
-        return <ToastButton {...buttonProps} />;
-    }, [buttonProps]);
-
-    return domReady && createPortal(
+    return createPortal(
         <Container type={toastType}>
             {onClose && <Close onClick={onClose}><Cross2Icon /></Close>}
             <ContentContainer>
                 <Title type={toastType}>{title}</Title>
                 <span>{content}</span>
             </ContentContainer>
-            {button}
+            {buttonProps && <ToastButton {...buttonProps} />}
         </Container>,
-        target!
+        target
     );
 };
 

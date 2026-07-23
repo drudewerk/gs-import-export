@@ -1,5 +1,5 @@
 import js from "@eslint/js";
-import stylisticTypeScript from "@stylistic/eslint-plugin-ts";
+import stylistic from "@stylistic/eslint-plugin";
 import typeScriptPlugin from "@typescript-eslint/eslint-plugin";
 import typeScriptParser from "@typescript-eslint/parser";
 import importPlugin from "eslint-plugin-import";
@@ -43,7 +43,7 @@ export default [
             sourceType: "module",
         },
         plugins: {
-            "@stylistic/ts": stylisticTypeScript,
+            "@stylistic": stylistic,
             "@typescript-eslint": typeScriptPlugin,
             import: importPlugin,
             react: reactPlugin,
@@ -109,7 +109,7 @@ export default [
                     argsIgnorePattern: "^_",
                 },
             ],
-            "@stylistic/ts/member-delimiter-style": [
+            "@stylistic/member-delimiter-style": [
                 "warn",
                 {
                     multiline: {
@@ -123,7 +123,7 @@ export default [
                     multilineDetection: "brackets",
                 },
             ],
-            "@stylistic/ts/brace-style": [
+            "@stylistic/brace-style": [
                 "warn",
                 "1tbs",
                 {

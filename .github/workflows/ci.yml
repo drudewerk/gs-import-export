@@ -27,10 +27,13 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Audit root, frontend, and backend dependencies
+        run: npm run audit:ci
+
       - name: Lint
         run: npm run lint
 
-      - name: Test when package tests exist
+      - name: Test root, frontend, and backend packages
         run: npm test
 
       - name: Build
@@ -38,6 +41,3 @@ jobs:
 
       - name: Copy Apps Script output
         run: npm run copy
-
-      - name: Reject dependency-audit regressions
-        run: npm run audit:ci

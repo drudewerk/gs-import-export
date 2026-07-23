@@ -1,33 +1,15 @@
 {
   "advisories": {
-    "1102341": "moderate",
-    "1102437": "moderate",
-    "1103517": "moderate",
-    "1103884": "moderate",
-    "1104173": "moderate",
-    "1104202": "moderate",
-    "1107323": "low",
-    "1107327": "low",
-    "1109131": "moderate",
-    "1111900": "high",
-    "1112511": "moderate",
-    "1113531": "high",
-    "1114701": "high",
-    "1116229": "moderate",
     "1119441": "moderate",
-    "1120784": "moderate",
-    "1123525": "high"
+    "1124006": "moderate"
   },
   "packages": {
-    "@google/clasp": "high",
-    "@storybook/addon-actions": "moderate",
-    "@storybook/addon-essentials": "moderate",
-    "@storybook/core": "moderate",
-    "esbuild": "moderate",
+    "@google/clasp": "moderate",
+    "@hono/node-server": "moderate",
+    "@modelcontextprotocol/sdk": "moderate",
+    "gaxios": "moderate",
     "googleapis": "moderate",
     "googleapis-common": "moderate",
-    "storybook": "high",
-    "uuid": "moderate",
-    "vite": "high"
+    "uuid": "moderate"
   }
 }

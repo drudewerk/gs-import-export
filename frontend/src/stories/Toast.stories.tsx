@@ -1,5 +1,5 @@
 import { Fragment } from "react/jsx-runtime";
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 
 import { ButtonSize, ButtonType } from "../framework/Button/types";
 import { Toast } from "../framework/Toast/Toast";

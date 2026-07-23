@@ -39,7 +39,7 @@ export const Options: FC = () => {
                             label: "New sheet"
                         }
                     ]}
-                    defaultValue={sheet}
+                    value={sheet}
                     onChange={(value) => setSheet(value as UploadOptions["sheet"])}
                 />
                 {
@@ -55,7 +55,7 @@ export const Options: FC = () => {
                                 label: "At the end"
                             }
                         ]}
-                        defaultValue={startAt}
+                        value={startAt}
                         onChange={(value) => setStartAt(value as UploadOptions["startAt"])}
                     />
                 }

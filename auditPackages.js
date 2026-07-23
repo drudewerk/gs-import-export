@@ -85,6 +85,17 @@ function runAudit() {
     );
 
     const findings = collectFindings(report);
+    const releaseBlockers = Object.entries(findings.packages)
+        .filter(([, severity]) => (
+            severities.indexOf(severity) >= severities.indexOf("high")
+        ));
+
+    for (const [packageName, severity] of releaseBlockers) {
+        console.error(
+            `Release blocker: ${packageName}:${severity}`,
+        );
+    }
+
     if (baseline) {
         if (!baseline.advisories || !baseline.packages) {
             console.error("Invalid workspace audit baseline.");
@@ -94,18 +105,10 @@ function runAudit() {
         for (const regression of regressions) {
             console.error(`Audit regression: ${regression}`);
         }
-        return regressions.length > 0 ? 1 : 0;
+        return releaseBlockers.length > 0 || regressions.length > 0 ? 1 : 0;
     }
 
-    for (const [packageName, severity] of Object.entries(findings.packages)) {
-        if (severities.indexOf(severity) >= severities.indexOf("high")) {
-            console.error(
-                `Release blocker: ${packageName}:${severity}`,
-            );
-        }
-    }
-
-    return counts.high > 0 || counts.critical > 0 ? 1 : 0;
+    return releaseBlockers.length > 0 ? 1 : 0;
 }
 
 process.exitCode = runAudit();

@@ -14,7 +14,7 @@
     "main": "index.js",
     "scripts": {
         "lint": "npm run lint --workspaces",
-        "test": "npm run test --workspaces --if-present",
+        "test": "node --test test/*.test.js && npm run test --workspaces --if-present",
         "audit": "node auditPackages.js",
         "audit:ci": "node auditPackages.js --baseline audit-baseline.json",
         "build": "npm run build --workspaces",
@@ -27,7 +27,9 @@
     "license": "ISC",
     "description": "",
     "devDependencies": {
-        "@google/clasp": "2.4.2",
-        "fs-extra": "11.2.0"
+        "@google/clasp": "3.3.0",
+        "fs-extra": "11.3.6",
+        "react": "19.2.8",
+        "react-dom": "19.2.8"
     }
 }

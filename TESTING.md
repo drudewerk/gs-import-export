@@ -1,10 +1,18 @@
 # Testing
 
-## Current State
+## Automated Tests
 
-The repository does not currently have automated application tests. `npm test`
-runs frontend and backend test scripts only when they are present. A successful
-no-test run is not evidence that import or export behavior was verified.
+`npm test` runs all three package-root test suites:
+
+- The root suite verifies that the CI audit baseline cannot allow high-severity
+  findings.
+- The frontend suite renders the sidebar with a synthetic `google.script.run`
+  adapter and exercises its controlled export option.
+- The backend suite compiles the Apps Script module and verifies its required
+  global entry points.
+
+These tests protect the dependency and deployment seams. They do not replace
+the live import and export checks below.
 
 ## Synthetic Samples and Fixtures
 
