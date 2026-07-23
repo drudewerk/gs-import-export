@@ -1,0 +1,94 @@
+[
+    {
+        "name": "array of objects",
+        "document": [
+            {
+                "id": 1,
+                "name": "Ada"
+            },
+            {
+                "id": 2,
+                "name": "Grace"
+            }
+        ],
+        "expectedTabularData": [
+            [
+                "id",
+                "name"
+            ],
+            [
+                1,
+                "Ada"
+            ],
+            [
+                2,
+                "Grace"
+            ]
+        ]
+    },
+    {
+        "name": "single object",
+        "document": {
+            "id": 1,
+            "name": "Ada"
+        },
+        "expectedTabularData": [
+            [
+                "id",
+                "name"
+            ],
+            [
+                1,
+                "Ada"
+            ]
+        ]
+    },
+    {
+        "name": "nested objects arrays and nulls",
+        "document": [
+            {
+                "profile": {
+                    "name": "Ada",
+                    "address": {
+                        "city": "London"
+                    }
+                },
+                "tags": [
+                    "math",
+                    "code"
+                ],
+                "contacts": [
+                    {
+                        "type": "email",
+                        "value": null
+                    }
+                ]
+            }
+        ],
+        "expectedTabularData": [
+            [
+                "profile.name",
+                "profile.address.city",
+                "tags.0",
+                "tags.1",
+                "contacts.0.type",
+                "contacts.0.value"
+            ],
+            [
+                "Ada",
+                "London",
+                "math",
+                "code",
+                "email",
+                null
+            ]
+        ]
+    },
+    {
+        "name": "empty record set",
+        "document": [],
+        "expectedTabularData": [
+            []
+        ]
+    }
+]

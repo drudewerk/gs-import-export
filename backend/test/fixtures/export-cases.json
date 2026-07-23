@@ -1,0 +1,115 @@
+[
+    {
+        "name": "headers become fields rather than records",
+        "tabularData": [
+            [
+                "name",
+                "active"
+            ],
+            [
+                "Ada",
+                false
+            ]
+        ],
+        "startingColumnNumber": 1,
+        "expectedRecords": [
+            {
+                "name": "Ada",
+                "active": false
+            }
+        ]
+    },
+    {
+        "name": "a header-only range has no records",
+        "tabularData": [
+            [
+                "name"
+            ]
+        ],
+        "startingColumnNumber": 1,
+        "expectedRecords": null
+    },
+    {
+        "name": "dotted headers reconstruct nested objects and arrays",
+        "tabularData": [
+            [
+                "profile.name",
+                "tags.0",
+                "tags.1"
+            ],
+            [
+                "Ada",
+                "math",
+                "code"
+            ]
+        ],
+        "startingColumnNumber": 1,
+        "expectedRecords": [
+            {
+                "profile": {
+                    "name": "Ada"
+                },
+                "tags": [
+                    "math",
+                    "code"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "unnamed headers use their spreadsheet columns",
+        "tabularData": [
+            [
+                "",
+                "name",
+                ""
+            ],
+            [
+                "left",
+                "Ada",
+                "right"
+            ]
+        ],
+        "startingColumnNumber": 2,
+        "expectedRecords": [
+            {
+                "UNNAMED_B": "left",
+                "name": "Ada",
+                "UNNAMED_D": "right"
+            }
+        ]
+    },
+    {
+        "name": "empty rows are omitted and falsy values are retained",
+        "tabularData": [
+            [
+                "name",
+                "count",
+                "active"
+            ],
+            [
+                "",
+                "",
+                ""
+            ],
+            [
+                "",
+                0,
+                false
+            ],
+            [
+                "",
+                "",
+                ""
+            ]
+        ],
+        "startingColumnNumber": 1,
+        "expectedRecords": [
+            {
+                "name": "",
+                "count": 0,
+                "active": false
+            }
+        ]
+    }
+]

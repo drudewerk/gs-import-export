@@ -8,8 +8,9 @@
   findings.
 - The frontend suite renders the sidebar with a synthetic `google.script.run`
   adapter and exercises its controlled export option.
-- The backend suite compiles the Apps Script module and verifies its required
-  global entry points.
+- The backend suite compiles the Apps Script module, verifies its required
+  global entry points, and exercises fixture-based JSON-to-tabular-data and
+  tabular-data-to-JSON conversion.
 
 These tests protect the dependency and deployment seams. They do not replace
 the live import and export checks below.
@@ -17,9 +18,10 @@ the live import and export checks below.
 ## Synthetic Samples and Fixtures
 
 - `samples/` contains synthetic JSON documents for manual import checks.
+- `backend/test/fixtures/` contains synthetic input and expected output for
+  automated conversion checks.
 - Never add customer spreadsheets, uploaded JSON, user identifiers, or secrets.
-- For future parsing tests, keep input and expected tabular or JSON output
-  together under the package being tested.
+- Keep input and expected tabular data or record sets together in each fixture.
 - Name fixtures after the behavior they demonstrate, such as
   `nested-arrays.json`, `missing-fields.json`, or `empty-record-set.json`.
 - Changed parsing or mapping behavior requires a regression fixture.
