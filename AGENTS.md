@@ -31,12 +31,12 @@ Run commands from the repository root:
 
 | Task | Command |
 | --- | --- |
-| Install all dependencies | `npm run install-deps` |
+| Install all dependencies | `npm install` |
 | Lint frontend and backend | `npm run lint` |
 | Run package tests when present | `npm test` |
 | Build frontend and backend | `npm run build` |
 | Copy build output | `npm run copy` |
-| Audit all package roots | `npm run audit` |
+| Audit project and workspaces | `npm run audit` |
 | Push the generated Apps Script project | `npm run push` |
 | Build, copy, and push | `npm run deploy` |
 
@@ -73,8 +73,8 @@ only when the user explicitly authorizes that write.
 | Change | Required checks |
 | --- | --- |
 | Guidance or workflow only | Links, relevant commands, `git diff --check` |
-| Frontend | `npm run lint:frontend`, `npm run build:frontend` |
-| Backend or JSON mapping | `npm run lint:backend`, `npm test`, `npm run build:backend`, `npm run copy`; follow `TESTING.md` for live verification |
+| Frontend | `npm run lint --workspace frontend`, `npm run build --workspace frontend` |
+| Backend or JSON mapping | `npm run lint --workspace backend`, `npm test`, `npm run build --workspace backend`, `npm run copy`; follow `TESTING.md` for live verification |
 | Manifest, scopes, or dependencies | `npm run lint`, `npm test`, `npm run build`, `npm run copy`, `npm run audit`, then an authorized test deployment |
 | Build/copy tooling | Clean build and copy; inspect `apps-script/` for expected files |
 | Push or release | All applicable checks plus the `RUNBOOK.md` release gate |

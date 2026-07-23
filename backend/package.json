@@ -12,11 +12,10 @@
     "license": "ISC",
     "description": "",
     "devDependencies": {
-        "@google/clasp": "2.4.2",
         "@types/google-apps-script": "1.0.84",
-        "@typescript-eslint/eslint-plugin": "8.12.2",
-        "@typescript-eslint/parser": "8.12.2",
-        "eslint": "9.14.0",
+        "@typescript-eslint/eslint-plugin": "8.65.0",
+        "@typescript-eslint/parser": "8.65.0",
+        "eslint": "9.39.5",
         "typescript": "5.6.3"
     }
 }

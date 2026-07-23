@@ -7,13 +7,10 @@ The JSON Import & Export by Drudewerk Add-On is a powerful tool designed to enha
 Before setting up the project, ensure you have the following installed:
 
 - **VSCode**
-- **Node.js** - v22 or later
-- **npm** - v10.9.0 or later
-- **Clasp (Command Line Apps Script Projects):** - v2.4.2 or later. Install via npm:
-
-```bash
-  npm i -g @google/clasp
-```
+- **Node.js** - v22.13.0 or later
+- **npm** - v10.9.8 or later
+- **Clasp authentication** for the Google account used by the Apps Script
+  project. The repository installs the supported Clasp version locally.
 
  > Ensure that you are logged in only in one Google account in current browser session. There is a bug which prevents some Google Add-on debug features from working in sessions with multiple google accounts
 

@@ -10,9 +10,6 @@
         "sourceMap": false,
         "outDir": "dist",
         "rootDir": "src",
-        "typeRoots": [
-            "./node_modules/@types"
-        ],
         "types": [
             "google-apps-script"
         ]

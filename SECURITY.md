@@ -16,8 +16,8 @@ spreadsheet contents in a public issue.
 
 ## Dependency Audits
 
-Run `npm run audit` to audit the root, frontend, and backend package roots,
-including development dependencies.
+Run `npm run audit` to audit the root project and both workspaces as one
+dependency graph, including development dependencies.
 
 - Critical and high-severity vulnerabilities block a production release.
 - Moderate vulnerabilities require documented triage before release.

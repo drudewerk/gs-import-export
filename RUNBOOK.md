@@ -2,9 +2,9 @@
 
 ## Prerequisites
 
-- Node.js 22 or later
-- npm 10.9 or later
-- `clasp` authenticated to the intended Google account
+- Node.js 22.13 or later
+- npm 10.9.8 or later
+- Clasp authenticated to the intended Google account
 - Access to a dedicated test spreadsheet and the configured Apps Script project
 
 Use one Google account in the browser while testing the add-on.
@@ -12,7 +12,7 @@ Use one Google account in the browser while testing the add-on.
 ## Setup
 
 ```bash
-npm run install-deps
+npm install
 ```
 
 Root `.clasp.json` and generated `apps-script/` output are local
