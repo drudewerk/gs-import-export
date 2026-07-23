@@ -19,67 +19,15 @@ Before setting up the project, ensure you have the following installed:
 
 ## Setup Instructions
 
-Follow these steps to set up and run the project from the repository.
-
-### Open VSCode workspace
-
-Open [gs-import-export.code-workspace](https://github.com/drudewerk/gs-import-export/blob/main/.vscode/gs-import-export.code-workspace) in VSCode
-
-### Install dependencies
-
-```bash
-npm run install-deps
-```
-
-### Initialize Add-on
-
-```bash
-clasp login
-
-clasp create --type sheets --title "My Add-On" --rootDir ./
-```
-
-### Deploy Add-on
-
-```bash
-npm run deploy
-```
-
-### Open project
-
-```bash
-clasp open
-```
+See [RUNBOOK.md](RUNBOOK.md) for prerequisites, dependency installation,
+generated-output inspection, test deployment, and release steps.
 
 ## Testing
 
-### Create a trigger
+See [TESTING.md](TESTING.md) for the current automated-test status, synthetic
+sample conventions, and live Apps Script verification.
 
-In the Apps Script Editor:
-
-- Click on the Triggers (clock) icon on the left sidebar.
-- Click Add Trigger.
-- Configure as follows:
-  - Choose which function to run: onOpen
-  - Select event source: From spreadsheet
-  - Select event type: On open
-- Click Save.
-
-### Test Deployment
-
-In the Apps Script Editor:
-
-- Click on Deploy > New Deployment.
-- Choose Test Deployment.
-- Select type > Editor Add-on
-- Click Add test
-  - Version > Latest code
-  - Config > Installed and Enabled
-  - Test document > New spreadsheet
-- Save test, select it, click Execute
-- In the spreadsheet, click Extensions
-  - Select your extension > Import JSON files or Export as JSON file
-  - Sidebar should open
+Security issues should be reported according to [SECURITY.md](SECURITY.md).
 
 ## License
 
