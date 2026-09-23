@@ -1,34 +1,32 @@
 import { FC, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
-import { useAtom, useAtomValue } from "jotai";
 import { css, styled } from "styled-components";
 
 import uploadBackgroundSrc from "../../assets/upload_background.png";
 import { Button } from "../../framework/Button/Button";
 import { ButtonType } from "../../framework/Button/types";
-import { importedAtom, importingAtom } from "../../state/app";
 
 
 type FileUploadProps = {
     onUploaded: (file: File[], replace: boolean) => void;
+    disabled: boolean;
+    replaceOnUpload: boolean;
 };
 
-export const FileUpload: FC<FileUploadProps> = ({ onUploaded }) => {
-    const importing = useAtomValue(importingAtom);
-    const [imported, setImported] = useAtom(importedAtom);
-
+export const FileUpload: FC<FileUploadProps> = ({
+    onUploaded,
+    disabled,
+    replaceOnUpload
+}) => {
     const onDrop = useCallback((acceptedFiles: File[]) => {
-        onUploaded(acceptedFiles, imported);
-        if (imported) {
-            setImported(false);
-        }
-    }, [imported, onUploaded, setImported]);
+        onUploaded(acceptedFiles, replaceOnUpload);
+    }, [onUploaded, replaceOnUpload]);
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
         onDrop,
-        disabled: importing,
+        disabled,
         accept: {
-            "json": [".json"]
+            "application/json": [".json"]
         },
         multiple: true
     });
@@ -38,7 +36,7 @@ export const FileUpload: FC<FileUploadProps> = ({ onUploaded }) => {
         <UploadBackgroundImg src={uploadBackgroundSrc} />
         <Button
             type={ButtonType.primary}
-            disabled={importing}
+            disabled={disabled}
         >
             Browse
         </Button>
@@ -50,7 +48,7 @@ export const FileUpload: FC<FileUploadProps> = ({ onUploaded }) => {
 
 const Container = styled.div<{ $dragActive: boolean; }>`
     width: 100%;
-    height: 205px;
+    height: 220px;
     display: flex;
     flex-flow: column nowrap;
     justify-content: flex-start;

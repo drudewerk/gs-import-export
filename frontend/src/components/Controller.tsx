@@ -8,6 +8,7 @@ import { Shimmers } from "./Shimmers";
 
 export const Controller: FC = () => {
     const [state, setState] = useState<CurrentState | null>(null);
+    const [errorMessage, setErrorMessage] = useState("");
     const {
         setOptions
     } = useOptions();
@@ -18,7 +19,12 @@ export const Controller: FC = () => {
                 setState(state);
                 setOptions(state.options);
             })
-            .withFailureHandler(() => {
+            .withFailureHandler((error: { message?: unknown; }) => {
+                setErrorMessage(
+                    typeof error?.message === "string"
+                        ? error.message
+                        : "The add-on could not load its initial state."
+                );
                 setState({
                     state: "error"
                 });
@@ -32,7 +38,7 @@ export const Controller: FC = () => {
         case "export":
             return <Export />;
         case "error":
-            return <p>Error. Please try again</p>;
+            return <p>{errorMessage}</p>;
         default:
             return <Shimmers />;
     }

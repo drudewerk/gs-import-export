@@ -1,122 +1,166 @@
-import { useCallback, useLayoutEffect } from "react";
-import { useAtom } from "jotai";
+import { useCallback, useReducer } from "react";
 
-import { importedAtom, importingAtom } from "../../state/app";
 import { useErrorOverlay } from "../ErrorOverlay/useErrorOverlay";
 import { useRateUs } from "../RateUs/useRateUs";
+import { appsScriptImportGateway } from "./appsScriptImportGateway";
+import {
+    importSessionReducer,
+    initialImportSession,
+    isImportBusy
+} from "./importSession";
+import {
+    executePreparedImport,
+    failureOutcome
+} from "./importWorkflow";
+import {
+    ImportPreparationError,
+    prepareJsonImport
+} from "./prepareJsonImport";
 
-
-type FileImportOptions = {
-    sheet?: UploadOptions["sheet"];
-    startAt?: UploadOptions["startAt"];
-    mergeFiles?: UploadOptions["mergeFiles"];
-};
 
 type FileImportProps = {
     files: File[] | undefined;
-    options?: FileImportOptions;
-};
-
-type FileToUpload = {
-    data: string;
-    fileName: string;
-    fileType: string;
+    options: UploadOptions;
 };
 
 export const useFileImport = ({
-    files: files,
+    files,
     options
 }: FileImportProps) => {
-    const [imported, setImported] = useAtom(importedAtom);
-    const [importing, setImporting] = useAtom(importingAtom);
+    const [state, dispatch] = useReducer(importSessionReducer, initialImportSession);
     const {
         setError,
         resetError
     } = useErrorOverlay();
-
     const { promptRateUs } = useRateUs();
 
-    useLayoutEffect(() => {
-        setImported(false);
-        setImporting(false);
-    }, [files, setImporting, setImported]);
-
-    const importFiles = useCallback((files: FileToUpload[]) => {
+    const reset = useCallback(() => {
+        dispatch({ type: "reset" });
         resetError();
-        google.script.run
-            .withSuccessHandler(() => {
-                setImporting(false);
-                setImported(true);
-                promptRateUs();
-            })
-            .withFailureHandler((error) => {
-                setImported(false);
-                setImporting(false);
-                setError(
-                    "Failed to import files",
-                    error.message
-                );
-                console.error(error);
-            })
-            .importJsonFile({
-                files,
-                options: {
-                    ...(options ?? {})
-                }
-            });
-    }, [resetError, options, setImporting, setImported, promptRateUs, setError]);
+    }, [resetError]);
 
-    const uploadFile = useCallback(() => {
-        if (!files) {
-            throw new Error("Files are undefined!");
+    const review = useCallback(async () => {
+        if (!files?.length) {
+            setError("No files selected", "Select at least one JSON file.");
+            return;
         }
 
         resetError();
-        setImporting(true);
+        dispatch({
+            type: "progress",
+            progress: {
+                phase: "reading",
+                completedBytes: 0,
+                totalBytes: files.reduce((sum, file) => sum + file.size, 0),
+                fileNumber: 1,
+                totalFiles: files.length
+            }
+        });
 
         try {
-            const fileDataList: FileToUpload[] = [];
+            const preparedImport = await prepareJsonImport(
+                files,
+                options,
+                progress => dispatch({ type: "progress", progress })
+            );
+            dispatch({ type: "previewing" });
+            const preview = await appsScriptImportGateway.preview({
+                tables: preparedImport.tables.map(table => ({
+                    tableIndex: table.tableIndex,
+                    rowCount: table.rowCount,
+                    columnCount: table.columnCount
+                })),
+                options
+            });
 
-            // Process each file
-            files.forEach((file, i) => {
-                const reader = new FileReader();
-                reader.onload = async () => {
-                    const fileType = file.type;
-                    const fileName = file.name;
-
-                    if (typeof reader.result != "string") {
-                        setImporting(false);
-                        return;
-                    }
-
-                    const base64String = reader.result?.split(",")[1];
-                    fileDataList.push({
-                        fileType,
-                        fileName,
-                        data: base64String
-                    });
-
-                    // Once all files are processed, send them to the backend
-                    if (i === files.length - 1) {
-                        importFiles(fileDataList);
-                    }
-                };
-                reader.readAsDataURL(file);
+            dispatch({
+                type: "review-ready",
+                preparedImport,
+                preview
             });
         } catch (error) {
-            setImporting(false);
-            setImported(false);
-            setError(
-                "Failed to upload files",
-                (error as { message: string; })?.message
+            const message = importErrorMessage(
+                error,
+                "The files could not be prepared. Check their size and JSON structure."
             );
-            console.error("File upload failed", error);
+            const outcome = failureOutcome(message, 0, 0);
+            dispatch({ type: "failed", outcome });
+            setError("Import could not be prepared", message);
         }
-    }, [files, importFiles, resetError, setError, setImported, setImporting]);
+    }, [
+        files,
+        options,
+        resetError,
+        setError
+    ]);
+
+    const confirm = useCallback(async () => {
+        if (state.phase !== "review") {
+            return;
+        }
+
+        const {
+            preparedImport,
+            preview
+        } = state;
+        resetError();
+        dispatch({ type: "import-started" });
+
+        const outcome = await executePreparedImport({
+            preparedImport,
+            preview,
+            options,
+            gateway: appsScriptImportGateway,
+            onEvent: dispatch
+        });
+
+        if (outcome.coverage === "all" && !outcome.message) {
+            dispatch({ type: "succeeded", outcome });
+            promptRateUs();
+            return;
+        }
+
+        dispatch({ type: "failed", outcome });
+        setError(
+            "Import stopped",
+            outcome.message ?? "The import stopped before all rows were written."
+        );
+    }, [
+        options,
+        promptRateUs,
+        resetError,
+        setError,
+        state
+    ]);
+
+    const importing = isImportBusy(state);
+    const imported = state.phase === "succeeded";
+    const locked = importing || state.phase === "review";
 
     return {
-        start: uploadFile,
+        review,
+        confirm,
+        reset,
+        cancelReview: reset,
         importing,
-        imported
+        imported,
+        locked,
+        uiState: state
     };
 };
+
+function importErrorMessage(error: unknown, fallback: string): string {
+    if (error instanceof ImportPreparationError) {
+        return error.message;
+    }
+    if (
+        typeof error === "object"
+        && error !== null
+        && "message" in error
+        && typeof error.message === "string"
+        && error.message
+    ) {
+        return error.message;
+    }
+    return fallback;
+}

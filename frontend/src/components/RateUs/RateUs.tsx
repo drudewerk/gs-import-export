@@ -12,9 +12,7 @@ export const RateUs: FC = () => {
 
     const setState = useCallback((state: RateUsState) => {
         google.script.run
-            .withFailureHandler((error) => {
-                console.error(error);
-            })
+            .withFailureHandler(() => undefined)
             .setRateUsState(state);
     }, []);
 

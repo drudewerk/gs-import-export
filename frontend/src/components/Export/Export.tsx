@@ -47,7 +47,6 @@ export const Export: FC = () => {
                         "Failed to export file as JSON",
                         error?.message
                     );
-                    console.error(error);
                 })
                 .sheetDataToArray(exportFrom == "selection");
 
@@ -58,7 +57,6 @@ export const Export: FC = () => {
                 "Failed to export file as JSON",
                 (error as { message: string; })?.message
             );
-            console.error("Error downloading the file:", error);
         }
     }, [exportFrom, promptRateUs, resetError, setError]);
 

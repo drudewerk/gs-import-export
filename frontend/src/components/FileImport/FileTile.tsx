@@ -10,9 +10,16 @@ export type FileTileProps = {
     onRemove: (file: File) => void;
     importing: boolean;
     imported: boolean;
+    locked: boolean;
 };
 
-export const FileTile: FC<FileTileProps> = ({ file, onRemove, importing, imported }) => {
+export const FileTile: FC<FileTileProps> = ({
+    file,
+    onRemove,
+    importing,
+    imported,
+    locked
+}) => {
     const fileSize = useMemo(() => {
         if (!file) {
             return 0;
@@ -20,7 +27,7 @@ export const FileTile: FC<FileTileProps> = ({ file, onRemove, importing, importe
 
         const size = Math.round(file.size / 1048576 * 10) / 10;
 
-        return size < 0.1 ? "<0.1 MB" : `${size} MB`;
+        return size < 0.1 ? "<0.1 MiB" : `${size} MiB`;
     }, [file]);
 
     if (!file) {
@@ -39,6 +46,7 @@ export const FileTile: FC<FileTileProps> = ({ file, onRemove, importing, importe
             <FileState
                 imported={imported}
                 importing={importing}
+                locked={locked}
                 onRemove={() => onRemove(file)}
             />
         </FileTileRightPart>

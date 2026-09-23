@@ -10,6 +10,10 @@ Use these repository-specific rules in addition to normal correctness review.
   resulting records, field paths, or sheet layout.
 - A spreadsheet mutation can create, clear, or overwrite cells outside the
   destination presented to the user.
+- Chunked import writes can execute concurrently, out of order, overlap, or
+  leave gaps.
+- An import result counts rows that were not acknowledged by a successful
+  `setValues()` call, or fails to distinguish no rows, some rows, and all rows.
 - Changed parsing or mapping behavior has no representative synthetic fixture.
 - A menu, trigger, or sidebar call targets an Apps Script function that will not
   remain a global entry point in generated output.

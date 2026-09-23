@@ -9,17 +9,26 @@ import App from "./App";
 
 class GoogleScriptRunFake {
     private successHandler?: (result: CurrentState) => void;
+    private failureHandler?: (error: { message: string; }) => void;
+
+    constructor(private readonly failure?: { message: string; }) {}
 
     withSuccessHandler(callback: (result: CurrentState) => void) {
         this.successHandler = callback;
         return this;
     }
 
-    withFailureHandler() {
+    withFailureHandler(callback: (error: { message: string; }) => void) {
+        this.failureHandler = callback;
         return this;
     }
 
     getCurrentState() {
+        if (this.failure) {
+            this.failureHandler?.(this.failure);
+            return;
+        }
+
         this.successHandler?.({
             state: "export",
         });
@@ -78,4 +87,23 @@ test("changes the export source", async () => {
     });
 
     expect(selection?.getAttribute("aria-checked")).toBe("true");
+});
+
+test("shows the Apps Script startup failure", async () => {
+    Object.defineProperty(globalThis, "google", {
+        configurable: true,
+        value: {
+            script: {
+                run: new GoogleScriptRunFake({
+                    message: "Authorization is required."
+                }),
+            },
+        },
+    });
+
+    await act(async () => {
+        root?.render(<App />);
+    });
+
+    expect(container.textContent).toContain("Authorization is required.");
 });

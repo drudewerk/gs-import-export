@@ -8,13 +8,20 @@ import { Loader } from "../../framework/Loader/Loader";
 type FileStateProps = {
     importing: boolean;
     imported: boolean;
+    locked: boolean;
     onRemove: () => void;
 };
 
-export const FileState: FC<FileStateProps> = ({ importing, imported, onRemove }) => {
+export const FileState: FC<FileStateProps> = ({
+    importing,
+    imported,
+    locked,
+    onRemove
+}) => {
     if (!importing && !imported) {
         return <FileRemove
             onClick={onRemove}
+            disabled={locked}
         >
             <Cross2Icon />
         </FileRemove>;
@@ -44,10 +51,20 @@ const FileStateIcon = styled.div`
     justify-content: center;
 `;
 
-const FileRemove = styled(FileStateIcon)`
+const FileRemove = styled.button`
+    width: 20px;
+    height: 20px;
     display: flex;
     flex-flow: row;
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    border: 0;
+    padding: 0;
+    background: transparent;
+
+    &:disabled {
+        cursor: default;
+        opacity: .35;
+    }
 `;

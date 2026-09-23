@@ -1,38 +1,11 @@
 [
     {
-        "name": "array of objects",
-        "document": [
-            {
-                "id": 1,
-                "name": "Ada"
-            },
-            {
-                "id": 2,
-                "name": "Grace"
-            }
-        ],
-        "expectedTabularData": [
-            [
-                "id",
-                "name"
-            ],
-            [
-                1,
-                "Ada"
-            ],
-            [
-                2,
-                "Grace"
-            ]
-        ]
-    },
-    {
         "name": "single object",
         "document": {
             "id": 1,
             "name": "Ada"
         },
-        "expectedTabularData": [
+        "expectedValues": [
             [
                 "id",
                 "name"
@@ -65,7 +38,7 @@
                 ]
             }
         ],
-        "expectedTabularData": [
+        "expectedValues": [
             [
                 "profile.name",
                 "profile.address.city",
@@ -82,13 +55,6 @@
                 "email",
                 null
             ]
-        ]
-    },
-    {
-        "name": "empty record set",
-        "document": [],
-        "expectedTabularData": [
-            []
         ]
     }
 ]

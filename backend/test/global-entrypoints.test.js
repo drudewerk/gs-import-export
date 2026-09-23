@@ -10,11 +10,13 @@ test("compiled Apps Script exposes the sidebar and menu entry points", () => {
         "getCurrentState",
         "getOptions",
         "getRateUsState",
-        "importJsonFile",
+        "beginJsonImport",
         "onOpen",
+        "previewJsonImport",
         "saveOptions",
         "setRateUsState",
         "sheetDataToArray",
+        "writeJsonImportChunk",
     ]) {
         assert.equal(typeof context[entryPoint], "function", entryPoint);
     }

@@ -6,7 +6,11 @@ import { RadioGroup } from "../../framework/RadioGroup/RadioGroup";
 import { useOptions } from "./useOptions";
 
 
-export const Options: FC = () => {
+type OptionsProps = {
+    disabled: boolean;
+};
+
+export const Options: FC<OptionsProps> = ({ disabled }) => {
     const {
         sheet,
         setSheet,
@@ -25,6 +29,7 @@ export const Options: FC = () => {
                 <Checkbox
                     label="Merge data from all files together"
                     checked={mergeFiles ?? false}
+                    disabled={disabled}
                     onChange={(value) => setMergeFiles(value)}
                 />
                 <RadioGroup
@@ -40,6 +45,7 @@ export const Options: FC = () => {
                         }
                     ]}
                     value={sheet}
+                    disabled={disabled}
                     onChange={(value) => setSheet(value as UploadOptions["sheet"])}
                 />
                 {
@@ -56,6 +62,7 @@ export const Options: FC = () => {
                             }
                         ]}
                         value={startAt}
+                        disabled={disabled}
                         onChange={(value) => setStartAt(value as UploadOptions["startAt"])}
                     />
                 }

@@ -21,9 +21,7 @@ export const useOptions = () => {
 
     const saveOptions = useCallback((options: UploadOptions) => {
         google.script.run
-            .withFailureHandler((error) => {
-                console.error(error);
-            })
+            .withFailureHandler(() => undefined)
             .saveOptions(options);
     }, []);
 

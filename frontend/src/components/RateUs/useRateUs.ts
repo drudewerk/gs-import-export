@@ -24,9 +24,7 @@ export const useRateUs = () => {
                     }
                 }
             })
-            .withFailureHandler((error) => {
-                console.error(error);
-            })
+            .withFailureHandler(() => undefined)
             .getRateUsState();
     }, [setShow]);
 
